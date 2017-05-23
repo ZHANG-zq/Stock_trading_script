@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="HTML 帮助文件">
+      <UniqueIdentifier>{a2db284b-ee43-488e-8ee2-532699f7c053}</UniqueIdentifier>
+      <Extensions>hhp;hhc;hhk;gif;jpg</Extensions>
+    </Filter>
+    <Filter Include="HTML 帮助主题">
+      <UniqueIdentifier>{0f679f5a-6ed2-4884-bc21-e963907cdbc0}</UniqueIdentifier>
+      <Extensions>htm;html</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="mk.htm">
+      <Filter>HTML 帮助主题</Filter>
+    </None>
+    <None Include="mk.reg" />
+    <None Include="res\mk.rc2">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\mk.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="hlp\mk.hhk">
+      <Filter>HTML 帮助文件</Filter>
+    </None>
+    <None Include="hlp\HIDD_ROOT_DIALOG.htm">
+      <Filter>HTML 帮助主题</Filter>
+    </None>
+    <None Include="hlp\mk.hhc">
+      <Filter>HTML 帮助文件</Filter>
+    </None>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mk.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="mkDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgProxy.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="workthread.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ADOConn.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="account.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractTrade.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Moving_Average.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="choose_stock.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Turtle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="mk.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="mkDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgProxy.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ADOConn.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="account.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractTrade.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Moving_Average.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="workthread.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="choose_stock.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Turtle.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="mk.idl">
+      <Filter>源文件</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="mk.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="hlp\mk.hhp">
+      <Filter>HTML 帮助文件</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resource.h">
+      <Filter>头文件</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

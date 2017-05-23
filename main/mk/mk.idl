@@ -1,0 +1,29 @@
+// mk.idl : mk.exe 的类型库源
+
+// 此文件将由 MIDL 编译器处理以产生
+// 类型库(mk.tlb)。
+
+[ uuid(246E8019-593F-4235-B241-93DEBD29ACE5), version(1.0) ]
+library mk
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	//  CmkDoc 的主调度接口
+	
+	[ uuid(71A97981-2CD6-4F8D-BEE2-8599A58725DA) ]
+	dispinterface Imk
+	{
+		properties:
+			
+		methods:
+	};
+
+	//  CmkDoc 的类信息
+	
+	[ uuid(52E15AFB-9124-4592-8253-BB7D67DB6CC6) ]
+	coclass mk
+	{
+		[default] dispinterface Imk;
+	};
+};
