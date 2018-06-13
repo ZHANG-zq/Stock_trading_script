@@ -4,7 +4,7 @@
 #include "math.h"
 
 
-bool days20=false,days55=false;   //±ê¼ÇÊÇ·ñ´ïµ½Ö¸¶¨Ê±¼ä
+bool days20=false,days55=false;   //æ ‡è®°æ˜¯å¦è¾¾åˆ°æŒ‡å®šæ—¶é—´
 
 
 
@@ -18,45 +18,27 @@ Moving_Average::~Moving_Average(void)
 }
 
 
-/*¶ÔËÙ¶ÈÒªÇó²»¸ß£¬µ«ÄÚ´æÒªÉ÷ÓÃ*/
+
 void Moving_Average::run_market(int num,char *code_str)
 {
 	if(pmydata==NULL)
 		return;
-	//µÚÒ»Ììµ¥¶ÀËã
-	//N *n1=new N;         //·Ö±ğ¶ÔÓ¦20Ìì£¬55Ìì
-	//N *n2=new N;
-	//n1->front=n1->next=n2->front=n2->next=NULL;
-	//n1->value=n2->value=fabs(pmydata->Loprc - pmydata->Hiprc);  //µÚÒ»ÌìµÄNÓÃµ±Ç°½»Ò×ÈÕµÄ×î¸ß¼ÛÓë×îµÍ¼Û¼äµÄ²¨·ù
 	pmydata++;
-	//´ÓµÚ¶şÌì¿ªÊ¼
 	for(int t=2;t<=num;t++)
 	{
-		//double dn=calculate_N(pmydata);
-		//set_N_full(n1,dn);
-		//set_N_full(n2,dn);
-		if(can_buy())            //Ã»ÓĞ³ÖÓĞ¹ÉÆ±
+		if(can_buy())          
 		{
-					if(is_goldcross(t,5,20))
-					{
-
-			 			buy(pmydata);
-
-					}
+			if(is_goldcross(t,5,20))
+				buy(pmydata);
 		}
 		else
 		{
-					if(is_deathcross(t,5,20))
-					{
-						sell(pmydata);
-
-					}
-			}
-
+			if(is_deathcross(t,5,20))
+				sell(pmydata);
+		}
 		pmydata++;
 	 }
 	 //report(code_str);
-
 }
 
 
@@ -65,31 +47,22 @@ bool Moving_Average::is_goldcross(int n,int small_period,int big_period)
 {
 	if(n>=big_period)
 	{
-		    float samll_average=0,big_average=0;
-		    
-			for(int i=0;i<small_period;i++)             //Ğ¡µÄnÌìÆ½¾ù¼Û¸ñ
-			{
-				samll_average+=(pmydata-i)->Clsprc;         //¶¼ÓÃÊÕÅÌ¼ÛºÃÏñ²»Ì«×¼È·£¬µ±Ìì²»Ó¦¸ÃÓÃÊÕÅÌ¼Û£¬¶øÊÇÓÃ×î¸ß¼Û£¬ÒòÎªÒª¿¼ÂÇ±»ÓÕ¶àµÄÇé¿ö
-			}
-            samll_average/=small_period;
-
-			
-			for(int i=0;i<big_period;i++)               //´óµÄnÌìÆ½¾ù¼Û¸ñ
-			{
-				big_average+=(pmydata-i)->Clsprc;
-			}
-            big_average/=big_period;
-
-
-			if(samll_average>big_average)
-			{
-				strtemp.Format("½ğ²æ³öÏÖ\n");
-			   //strtemp.Format("\t%dÓë%dÌìµÄÆ½¾ùÒÆ¶¯Ïß½»²æ(½ğ²æ)ÔÚ%f¼ÛÎ»³öÏÖ\n",small_period,big_period,pmydata->Clsprc);
-	           append_text(hedit2,(LPTSTR)(LPCTSTR)strtemp);
-			   return true;
-			}
+		float samll_average=0,big_average=0;
+		for(int i=0;i<small_period;i++)            
+			samll_average+=(pmydata-i)->Clsprc;        
+            	samll_average/=small_period;
+		for(int i=0;i<big_period;i++)
+			big_average+=(pmydata-i)->Clsprc;
+            	big_average/=big_period;
+		if(samll_average>big_average)
+		{
+			strtemp.Format("é‡‘å‰å‡ºç°\n");
+			//strtemp.Format("\t%dä¸%då¤©çš„å¹³å‡ç§»åŠ¨çº¿äº¤å‰(é‡‘å‰)åœ¨%fä»·ä½å‡ºç°\n",small_period,big_period,pmydata->Clsprc);
+	        	append_text(hedit2,(LPTSTR)(LPCTSTR)strtemp);
+			return true;
+		}
 	}
-		return false;
+        return false;
 
 }
 
@@ -98,30 +71,20 @@ bool Moving_Average::is_deathcross(int n,int small_period,int big_period)
 {
 	if(n>=big_period)
 	{
-		    float samll_average=0,big_average=0;
-		    
-			for(int i=0;i<small_period;i++)             //Ğ¡µÄnÌìÆ½¾ù¼Û¸ñ
-			{
-				samll_average+=(pmydata-i)->Clsprc;
-			}
-            samll_average/=small_period;
-
-			
-			for(int i=0;i<big_period;i++)               //´óµÄnÌìÆ½¾ù¼Û¸ñ
-			{
-				big_average+=(pmydata-i)->Clsprc;
-			}
-            big_average/=big_period;
-
-
-			if(samll_average<big_average)
-			{
-				strtemp.Format("ËÀ²æ³öÏÖ\n");
-			//strtemp.Format("\t%dÓë%dÌìµÄÆ½¾ùÒÆ¶¯Ïß½»²æ(ËÀ²æ)ÔÚ%f¼ÛÎ»³öÏÖ\n",small_period,big_period,pmydata->Clsprc);
-	        append_text(hedit2,(LPTSTR)(LPCTSTR)strtemp);
-			   return true;
-			}
+		float samll_average=0,big_average=0;
+		for(int i=0;i<small_period;i++)          
+			samll_average+=(pmydata-i)->Clsprc;
+        	samll_average/=small_period;
+		for(int i=0;i<big_period;i++)       
+			big_average+=(pmydata-i)->Clsprc;
+            	big_average/=big_period;
+		if(samll_average<big_average)
+		{
+			strtemp.Format("æ­»å‰å‡ºç°\n");
+			//strtemp.Format("\t%dä¸%då¤©çš„å¹³å‡ç§»åŠ¨çº¿äº¤å‰(æ­»å‰)åœ¨%fä»·ä½å‡ºç°\n",small_period,big_period,pmydata->Clsprc);
+	        	append_text(hedit2,(LPTSTR)(LPCTSTR)strtemp);
+			return true;
+		}
 	}
-		return false;
-
+	return false;
 }
