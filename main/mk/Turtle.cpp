@@ -3,7 +3,7 @@
 #include "math.h"
 
 
-
+//海龟交易策略，参考https://xueqiu.com/6192813830/89599566 
 
 Turtle::Turtle(void)
 {
