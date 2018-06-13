@@ -1,5 +1,5 @@
 
-// mkDlg.cpp : ÊµÏÖÎÄ¼þ
+// mkDlg.cpp : å®žçŽ°æ–‡ä»¶
 //
 
 #include "stdafx.h"
@@ -16,24 +16,18 @@
 #endif
 
 
-// ÓÃÓÚÓ¦ÓÃ³ÌÐò¡°¹ØÓÚ¡±²Ëµ¥ÏîµÄ CAboutDlg ¶Ô»°¿ò
+// ç”¨äºŽåº”ç”¨ç¨‹åºâ€œå…³äºŽâ€èœå•é¡¹çš„ CAboutDlg å¯¹è¯æ¡†
 
 class CAboutDlg : public CDialogEx
 {
-public:
-	CAboutDlg();
-
-
-
-// ¶Ô»°¿òÊý¾Ý
-	enum { IDD = IDD_ABOUTBOX };
-
+	public:
+		CAboutDlg();
+        	// å¯¹è¯æ¡†æ•°æ®
+		enum { IDD = IDD_ABOUTBOX };
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
-
-// ÊµÏÖ
-protected:
-	DECLARE_MESSAGE_MAP()
+		virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV æ”¯æŒ
+	protected:
+		DECLARE_MESSAGE_MAP()
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
@@ -50,7 +44,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CmkDlg ¶Ô»°¿ò
+// CmkDlg å¯¹è¯æ¡†
 
 BEGIN_DHTML_EVENT_MAP(CmkDlg)
 
@@ -63,9 +57,7 @@ IMPLEMENT_DYNAMIC(CmkDlg, CDHtmlDialog);
 CmkDlg::CmkDlg(CWnd* pParent /*=NULL*/)
 	: CDHtmlDialog(CmkDlg::IDD, CmkDlg::IDH, pParent)
 {
-
 	is_suspend=false;
-
 	EnableActiveAccessibility();
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_pAutoProxy = NULL;
@@ -73,15 +65,11 @@ CmkDlg::CmkDlg(CWnd* pParent /*=NULL*/)
 
 CmkDlg::~CmkDlg()
 {
-	// Èç¹û¸Ã¶Ô»°¿òÓÐ×Ô¶¯»¯´úÀí£¬Ôò
-	//  ½«´Ë´úÀíÖ¸Ïò¸Ã¶Ô»°¿òµÄºóÏòÖ¸ÕëÉèÖÃÎª NULL£¬ÒÔ±ã
-	//  ´Ë´úÀíÖªµÀ¸Ã¶Ô»°¿òÒÑ±»É¾³ý¡£
+	// å¦‚æžœè¯¥å¯¹è¯æ¡†æœ‰è‡ªåŠ¨åŒ–ä»£ç†ï¼Œåˆ™
+	//  å°†æ­¤ä»£ç†æŒ‡å‘è¯¥å¯¹è¯æ¡†çš„åŽå‘æŒ‡é’ˆè®¾ç½®ä¸º NULLï¼Œä»¥ä¾¿
+	//  æ­¤ä»£ç†çŸ¥é“è¯¥å¯¹è¯æ¡†å·²è¢«åˆ é™¤ã€‚
 	if (m_pAutoProxy != NULL)
 		m_pAutoProxy->m_pDialog = NULL;
-
-
-
-
 }
 
 void CmkDlg::DoDataExchange(CDataExchange* pDX)
@@ -99,7 +87,7 @@ BEGIN_MESSAGE_MAP(CmkDlg, CDHtmlDialog)
 END_MESSAGE_MAP()
 
 
-// CmkDlg ÏûÏ¢´¦Àí³ÌÐò
+// CmkDlg æ¶ˆæ¯å¤„ç†ç¨‹åº
 
 
 unsigned __stdcall ReceivingThrd(void * pParam);
@@ -108,9 +96,8 @@ BOOL CmkDlg::OnInitDialog()
 {
 	CDHtmlDialog::OnInitDialog();
 
-	// ½«¡°¹ØÓÚ...¡±²Ëµ¥ÏîÌí¼Óµ½ÏµÍ³²Ëµ¥ÖÐ¡£
-
-	// IDM_ABOUTBOX ±ØÐëÔÚÏµÍ³ÃüÁî·¶Î§ÄÚ¡£
+	// å°†â€œå…³äºŽ...â€èœå•é¡¹æ·»åŠ åˆ°ç³»ç»Ÿèœå•ä¸­ã€‚
+	// IDM_ABOUTBOX å¿…é¡»åœ¨ç³»ç»Ÿå‘½ä»¤èŒƒå›´å†…ã€‚
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
@@ -128,29 +115,20 @@ BOOL CmkDlg::OnInitDialog()
 		}
 	}
 
-	// ÉèÖÃ´Ë¶Ô»°¿òµÄÍ¼±ê¡£µ±Ó¦ÓÃ³ÌÐòÖ÷´°¿Ú²»ÊÇ¶Ô»°¿òÊ±£¬¿ò¼Ü½«×Ô¶¯
-	//  Ö´ÐÐ´Ë²Ù×÷
-	SetIcon(m_hIcon, TRUE);			// ÉèÖÃ´óÍ¼±ê
-	SetIcon(m_hIcon, FALSE);		// ÉèÖÃÐ¡Í¼±ê
+	// è®¾ç½®æ­¤å¯¹è¯æ¡†çš„å›¾æ ‡ã€‚å½“åº”ç”¨ç¨‹åºä¸»çª—å£ä¸æ˜¯å¯¹è¯æ¡†æ—¶ï¼Œæ¡†æž¶å°†è‡ªåŠ¨
+	//  æ‰§è¡Œæ­¤æ“ä½œ
+	SetIcon(m_hIcon, TRUE);			// è®¾ç½®å¤§å›¾æ ‡
+	SetIcon(m_hIcon, FALSE);		// è®¾ç½®å°å›¾æ ‡
 
-	// TODO: ÔÚ´ËÌí¼Ó¶îÍâµÄ³õÊ¼»¯´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ é¢å¤–çš„åˆå§‹åŒ–ä»£ç 
 
-	//¸øÈ«¾ÖµÄ¾ä±ú¸³Öµ£¬ÆäÊµÒ²¿ÉÒÔ²»ÓÃÈ«¾Ö¾ä±ú£¬¶øÊÇ½«¾ä±ú´«µ½¹¤×÷Ïß³Ì
-	
+	//ç»™å…¨å±€çš„å¥æŸ„èµ‹å€¼ï¼Œå…¶å®žä¹Ÿå¯ä»¥ä¸ç”¨å…¨å±€å¥æŸ„ï¼Œè€Œæ˜¯å°†å¥æŸ„ä¼ åˆ°å·¥ä½œçº¿ç¨‹
 	hedit1=GetDlgItem(IDC_EDIT1)->GetSafeHwnd();
 	hedit2=GetDlgItem(IDC_EDIT2)->GetSafeHwnd();
 	hedit3=GetDlgItem(IDC_EDIT3)->GetSafeHwnd();
-
-
-    GetDlgItem(IDC_BUTTON1)->EnableWindow(FALSE);   //Áî°´Å¥²»¿É²Ù×÷
-
-
-
-
-
-	return TRUE;  // ³ý·Ç½«½¹µãÉèÖÃµ½¿Ø¼þ£¬·ñÔò·µ»Ø TRUE
+	GetDlgItem(IDC_BUTTON1)->EnableWindow(FALSE);   //ä»¤æŒ‰é’®ä¸å¯æ“ä½œ
+	return TRUE;  // é™¤éžå°†ç„¦ç‚¹è®¾ç½®åˆ°æŽ§ä»¶ï¼Œå¦åˆ™è¿”å›ž TRUE
 }
-
 
 
 void CmkDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -166,27 +144,24 @@ void CmkDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 }
 
-// Èç¹ûÏò¶Ô»°¿òÌí¼Ó×îÐ¡»¯°´Å¥£¬ÔòÐèÒªÏÂÃæµÄ´úÂë
-//  À´»æÖÆ¸ÃÍ¼±ê¡£¶ÔÓÚÊ¹ÓÃÎÄµµ/ÊÓÍ¼Ä£ÐÍµÄ MFC Ó¦ÓÃ³ÌÐò£¬
-//  Õâ½«ÓÉ¿ò¼Ü×Ô¶¯Íê³É¡£
+// å¦‚æžœå‘å¯¹è¯æ¡†æ·»åŠ æœ€å°åŒ–æŒ‰é’®ï¼Œåˆ™éœ€è¦ä¸‹é¢çš„ä»£ç 
+//  æ¥ç»˜åˆ¶è¯¥å›¾æ ‡ã€‚å¯¹äºŽä½¿ç”¨æ–‡æ¡£/è§†å›¾æ¨¡åž‹çš„ MFC åº”ç”¨ç¨‹åºï¼Œ
+//  è¿™å°†ç”±æ¡†æž¶è‡ªåŠ¨å®Œæˆã€‚
 
 void CmkDlg::OnPaint()
 {
 	if (IsIconic())
 	{
-		CPaintDC dc(this); // ÓÃÓÚ»æÖÆµÄÉè±¸ÉÏÏÂÎÄ
-
+		CPaintDC dc(this); // ç”¨äºŽç»˜åˆ¶çš„è®¾å¤‡ä¸Šä¸‹æ–‡
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
-
-		// Ê¹Í¼±êÔÚ¹¤×÷Çø¾ØÐÎÖÐ¾ÓÖÐ
+		// ä½¿å›¾æ ‡åœ¨å·¥ä½œåŒºçŸ©å½¢ä¸­å±…ä¸­
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
 		GetClientRect(&rect);
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
-
-		// »æÖÆÍ¼±ê
+		// ç»˜åˆ¶å›¾æ ‡
 		dc.DrawIcon(x, y, m_hIcon);
 	}
 	else
@@ -195,28 +170,19 @@ void CmkDlg::OnPaint()
 	}
 }
 
-//µ±ÓÃ»§ÍÏ¶¯×îÐ¡»¯´°¿ÚÊ±ÏµÍ³µ÷ÓÃ´Ëº¯ÊýÈ¡µÃ¹â±ê
-//ÏÔÊ¾¡£
+//å½“ç”¨æˆ·æ‹–åŠ¨æœ€å°åŒ–çª—å£æ—¶ç³»ç»Ÿè°ƒç”¨æ­¤å‡½æ•°å–å¾—å…‰æ ‡
+//æ˜¾ç¤ºã€‚
 HCURSOR CmkDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-// µ±ÓÃ»§¹Ø±Õ UI Ê±£¬Èç¹û¿ØÖÆÆ÷ÈÔ±£³Ö×ÅËüµÄÄ³¸ö
-//  ¶ÔÏó£¬Ôò×Ô¶¯»¯·þÎñÆ÷²»Ó¦ÍË³ö¡£ÕâÐ©
-//  ÏûÏ¢´¦Àí³ÌÐòÈ·±£ÈçÏÂÇéÐÎ: Èç¹û´úÀíÈÔÔÚÊ¹ÓÃ£¬
-//  Ôò½«Òþ²Ø UI£»µ«ÊÇÔÚ¹Ø±Õ¶Ô»°¿òÊ±£¬
-//  ¶Ô»°¿òÈÔÈ»»á±£ÁôÔÚÄÇÀï¡£
-
-
-
-
 
 BOOL CmkDlg::CanExit()
 {
-	// Èç¹û´úÀí¶ÔÏóÈÔ±£ÁôÔÚÄÇÀï£¬Ôò×Ô¶¯»¯
-	//  ¿ØÖÆÆ÷ÈÔ»á±£³Ö´ËÓ¦ÓÃ³ÌÐò¡£
-	//  Ê¹¶Ô»°¿ò±£ÁôÔÚÄÇÀï£¬µ«½«Æä UI Òþ²ØÆðÀ´¡£
+	// å¦‚æžœä»£ç†å¯¹è±¡ä»ä¿ç•™åœ¨é‚£é‡Œï¼Œåˆ™è‡ªåŠ¨åŒ–
+	//  æŽ§åˆ¶å™¨ä»ä¼šä¿æŒæ­¤åº”ç”¨ç¨‹åºã€‚
+	//  ä½¿å¯¹è¯æ¡†ä¿ç•™åœ¨é‚£é‡Œï¼Œä½†å°†å…¶ UI éšè—èµ·æ¥ã€‚
 	if (m_pAutoProxy != NULL)
 	{
 		ShowWindow(SW_HIDE);
@@ -227,91 +193,55 @@ BOOL CmkDlg::CanExit()
 }
 
 
-
 void CmkDlg::OnEnChangeEdit2()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼þÊÇ RICHEDIT ¿Ø¼þ£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ý·ÇÖØÐ´ CDHtmlDialog::OnInitDialog()
-	// º¯Êý²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖÐ¡£
+	// TODO:  å¦‚æžœè¯¥æŽ§ä»¶æ˜¯ RICHEDIT æŽ§ä»¶ï¼Œå®ƒå°†ä¸
+	// å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éžé‡å†™ CDHtmlDialog::OnInitDialog()
+	// å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+	// åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æŽ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼þÍ¨Öª´¦Àí³ÌÐò´úÂë
+	// TODO:  åœ¨æ­¤æ·»åŠ æŽ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 }
 
 
 void CmkDlg::OnBnClickedButton1()
 {
-	//SuspendThread(hWorkThread);  //µ÷ÓÃSuspendThreadÊ±±ØÐëÐ¡ÐÄ£¬ÒòÎª²»ÖªµÀÔÝÍ£Ïß³ÌÔËÐÐÊ±ËüÔÚ½øÐÐÊ²Ã´²Ù×÷¡£
-
+	//SuspendThread(hWorkThread);  //è°ƒç”¨SuspendThreadæ—¶å¿…é¡»å°å¿ƒï¼Œå› ä¸ºä¸çŸ¥é“æš‚åœçº¿ç¨‹è¿è¡Œæ—¶å®ƒåœ¨è¿›è¡Œä»€ä¹ˆæ“ä½œã€‚
 	if(is_suspend==false)
 	{      
 		SuspendThread(hWorkThread); 
 		is_suspend=true;
-		SetDlgItemText(IDC_BUTTON1,"»½ÐÑÏß³Ì");
+		SetDlgItemText(IDC_BUTTON1,"å”¤é†’çº¿ç¨‹");
 	}
 	else
 	{
 		ResumeThread(hWorkThread);
 		is_suspend=false;
-		SetDlgItemText(IDC_BUTTON1,"ÔÝÍ£Ïß³Ì");
+		SetDlgItemText(IDC_BUTTON1,"æš‚åœçº¿ç¨‹");
 	}
-
-
 }
-
-
-//void CmkDlg::OnEnChangeEdit1()
-//{
-//	// TODO:  Èç¹û¸Ã¿Ø¼þÊÇ RICHEDIT ¿Ø¼þ£¬Ëü½«²»
-//	// ·¢ËÍ´ËÍ¨Öª£¬³ý·ÇÖØÐ´ CDHtmlDialog::OnInitDialog()
-//	// º¯Êý²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-//	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖÐ¡£
-//
-//	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼þÍ¨Öª´¦Àí³ÌÐò´úÂë
-//}
-
 
 void CmkDlg::OnBnClickedButton3()
 {
-
-
-				//½¨Á¢¸öÐÂÏß³Ì,Ò²¾ÍÊÇÖ÷ÒªµÄ¹¤×÷Ïß³Ì¡£
-			hWorkThread = (HANDLE)_beginthreadex( NULL, 0, &WorkThrd,(void *)0, 0, &WorkThreadID );   
-
-			if(hWorkThread == NULL)
-			AfxMessageBox("ÎÞ·¨´´½¨¹¤×÷Ïß³Ì");
-
-			if((SetThreadPriority(hWorkThread,THREAD_PRIORITY_TIME_CRITICAL)!=0) && (GetThreadPriority(hWorkThread) != THREAD_PRIORITY_TIME_CRITICAL))  //·ÇÁã£¬Èç¹ûº¯ÊýÔËÐÐ³É¹¦;·ñÔòÎª0¡£ 
-			{
-					 AfxMessageBox("ÎÞ·¨ÉèÖÃ¹¤×÷Ïß³ÌÓÅÏÈ¼¶£¬ÍË³öÏß³Ì");
-			 
-			}
-
-
-	GetDlgItem(IDC_BUTTON3)->EnableWindow(FALSE);   //Áî°´Å¥²»¿É²Ù×÷
-    GetDlgItem(IDC_BUTTON1)->EnableWindow(TRUE);   //Áî°´Å¥²»¿É²Ù×÷
-
-
+	//å»ºç«‹æ–°çº¿ç¨‹,ä¹Ÿå°±æ˜¯ä¸»è¦çš„å·¥ä½œçº¿ç¨‹ã€‚
+	hWorkThread = (HANDLE)_beginthreadex( NULL, 0, &WorkThrd,(void *)0, 0, &WorkThreadID );   
+	if(hWorkThread == NULL)
+	AfxMessageBox("æ— æ³•åˆ›å»ºå·¥ä½œçº¿ç¨‹");
+	if((SetThreadPriority(hWorkThread,THREAD_PRIORITY_TIME_CRITICAL)!=0) && (GetThreadPriority(hWorkThread) != THREAD_PRIORITY_TIME_CRITICAL))  //éžé›¶ï¼Œå¦‚æžœå‡½æ•°è¿è¡ŒæˆåŠŸ;å¦åˆ™ä¸º0ã€‚ 
+	{
+		AfxMessageBox("æ— æ³•è®¾ç½®å·¥ä½œçº¿ç¨‹ä¼˜å…ˆçº§ï¼Œé€€å‡ºçº¿ç¨‹");
+	}
+	GetDlgItem(IDC_BUTTON3)->EnableWindow(FALSE);   //ä»¤æŒ‰é’®ä¸å¯æ“ä½œ
+	GetDlgItem(IDC_BUTTON1)->EnableWindow(TRUE);   //ä»¤æŒ‰é’®ä¸å¯æ“ä½œ
 }
 
 
 void CmkDlg::OnBnClickedButton4()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼þÍ¨Öª´¦Àí³ÌÐò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æŽ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	choose_stock  dlg;
 	int nRet=dlg.DoModal();
-	if(nRet==IDOK)  //Ö»ÔÚ°´È·¶¨°´Å¥·µ»Øºó²Ådo something
+	if(nRet==IDOK) 
 	{
 	}
 }
-
-
-//void CmkDlg::OnEnChangeEdit3()
-//{
-//	// TODO:  Èç¹û¸Ã¿Ø¼þÊÇ RICHEDIT ¿Ø¼þ£¬Ëü½«²»
-//	// ·¢ËÍ´ËÍ¨Öª£¬³ý·ÇÖØÐ´ CDHtmlDialog::OnInitDialog()
-//	// º¯Êý²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-//	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖÐ¡£
-//
-//	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼þÍ¨Öª´¦Àí³ÌÐò´úÂë
-//}
