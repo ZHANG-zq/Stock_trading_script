@@ -1,9 +1,9 @@
 #include "StdAfx.h"
 #include "AbstractTrade.h"
-#include "resource.h"   //ÎªÁËÊ¹ÓÃ¿Ø¼şid
+#include "resource.h"  
 #include "workthread.h"
 
-data *pmydata_old=NULL,*pmydata=NULL;//ÉùÃ÷È«¾Ö±äÁ¿£¬²¢¸³³õÖµ¡£
+data *pmydata_old=NULL,*pmydata=NULL;
 
 
 AbstractTrade::AbstractTrade(void)
@@ -21,8 +21,8 @@ AbstractTrade::~AbstractTrade(void)
 
 bool AbstractTrade::can_buy()
 {
-	if(ac.stock.quantity==0)   //ÒòÎªÖ»¿¼ÂÇÈ«²Ö½»Ò×
-		return true;
+	if(ac.stock.quantity==0)  
+	   return true;
 	else
 	   return false;
  
@@ -31,7 +31,7 @@ bool AbstractTrade::can_buy()
 bool AbstractTrade::can_sell()
 {
 	if(ac.stock.quantity!=0)
-		return true;
+	   return true;
 	else
 	   return false;
  
@@ -40,59 +40,56 @@ bool AbstractTrade::can_sell()
 void AbstractTrade::buy(data* ppdata)
 {
 	ac.stock.price=ac.sign_buyprice*ac.fee_rat;
-    ac.stock.quantity=ac.cash/ac.stock.price;      //unsigned long long³ıÒÔdouble,ÏÈµÃ³ö½á¹û£¨º¬Ğ¡Êı)£¬ÔÙ×ª»»Îªunsigned long long
-	ac.stock.quantity/=100;   //×îµÍÂòÂô100¹É
+        ac.stock.quantity=ac.cash/ac.stock.price;      
+	ac.stock.quantity/=100;   //æœ€ä½ä¹°å–100è‚¡
 	ac.stock.quantity*=100; 
        
 
 	#ifdef _DEBUG
 	if(ac.cash<(ac.stock.price*ac.stock.quantity))
 	{
-		AfxMessageBox("²»¹»Ç®Âò"); //ÕâÖÖÇé¿öÓ¦¸Ã²»»á·¢Éú£¬Ò»·¢Éú¾ÍÊÇÔÖÄÑ
+		AfxMessageBox("ä¸å¤Ÿé’±ä¹°"); 
 	}
 	#endif
 
-	ac.cash-=(ac.stock.price*ac.stock.quantity);  //»áÓĞÒ»¸öĞ¡ÊıÎ»±»ÉáÈ¥£¬²»¹ı¶ÔÓÚcashÕâÃ´´óÊı£¬¿ÉÒÔºöÂÔ
+	ac.cash-=(ac.stock.price*ac.stock.quantity);  
 
-	strtemp.Format("ÔÚ%lf¼ÛÎ»ÂòÈë%I64u¹É,³É½»¼Û%lf\n",ac.stock.price,ac.stock.quantity,ac.stock.price);
+	strtemp.Format("åœ¨%lfä»·ä½ä¹°å…¥%I64uè‚¡,æˆäº¤ä»·%lf\n",ac.stock.price,ac.stock.quantity,ac.stock.price);
 	append_text(hedit2,(LPTSTR)(LPCTSTR)strtemp);
 
 
 
 }
 
-void AbstractTrade::sell(data* ppdata)   //½«Âô³öĞÅºÅµÄ¼Û¸ñµ±×÷³É½»¼Û£¬ÆÚ¼äµÄÎó²îÔÚÖĞ¼ä·ÑÓÃÀïÌåÏÖ
+void AbstractTrade::sell(data* ppdata)   //å°†å–å‡ºä¿¡å·çš„ä»·æ ¼å½“ä½œæˆäº¤ä»·ï¼ŒæœŸé—´çš„è¯¯å·®åœ¨ä¸­é—´è´¹ç”¨é‡Œä½“ç°
 {
-
-	/*¾ÍÔİÊ±ÔÚÕâÀï×Ü½á½»Ò×µÃÊ§°É*/
-
-	strtemp.Format("ÔÚ%lf¼ÛÎ»Âô³ö%I64u¹É\n\n\n",ac.sign_sellprice,ac.stock.quantity);
+	strtemp.Format("åœ¨%lfä»·ä½å–å‡º%I64uè‚¡\n\n\n",ac.sign_sellprice,ac.stock.quantity);
 	append_text(hedit2,(LPTSTR)(LPCTSTR)strtemp);
 
 	if (ac.sign_sellprice>ac.stock.price)
 	{ 
-        unsigned long long d;
+                unsigned long long d;
 		d=(ac.sign_sellprice-ac.stock.price)*ac.stock.quantity;
 		ac.profit+=d;
 		ac.total_assets+=d;
-        ac.profit_times++;
+                ac.profit_times++;
 
-		/*Á¬ĞøÓ¯ÀûµÄ×î´ó´ÎÊı*/
+		/*è®°å½•è¿ç»­ç›ˆåˆ©çš„æœ€å¤§æ¬¡æ•°*/
 		ac.continuous_profit_temp++;
 		ac.continuous_loss_temp=0;
 		if(ac.continuous_profit<ac.continuous_profit_temp)
-		  ac.continuous_profit=ac.continuous_profit_temp;
+		    ac.continuous_profit=ac.continuous_profit_temp;
 
-	    /*¼ÇÂ¼×î´óÓ¯Àû*/
-		if(ac.max_profit<d)
-		  ac.max_profit=d;
+	        /*è®°å½•æœ€å¤§ç›ˆåˆ©*/
+	        if(ac.max_profit<d)
+		    ac.max_profit=d;
 
-		strtemp.Format("±¾´ÎÓ¯Àû%I64u\tÀÛ¼ÆÓ¯Àû´ÎÊı%d\tÀÛ¼ÆÓ¯Àû%I64u\t×Ü×Ê²ú%I64u\n\n\n",d,ac.profit_times,ac.profit,ac.total_assets);
-	    append_text(hedit2,(LPTSTR)(LPCTSTR)strtemp);
+		strtemp.Format("æœ¬æ¬¡ç›ˆåˆ©%I64u\tç´¯è®¡ç›ˆåˆ©æ¬¡æ•°%d\tç´¯è®¡ç›ˆåˆ©%I64u\tæ€»èµ„äº§%I64u\n\n\n",d,ac.profit_times,ac.profit,ac.total_assets);
+	        append_text(hedit2,(LPTSTR)(LPCTSTR)strtemp);
 
 	}
 
-	/*¿÷Ëğ*/
+	/*äºæŸ*/
 	if (ac.sign_sellprice<ac.stock.price)
 	{ 
 		unsigned long long d;
@@ -101,105 +98,34 @@ void AbstractTrade::sell(data* ppdata)   //½«Âô³öĞÅºÅµÄ¼Û¸ñµ±×÷³É½»¼Û£¬ÆÚ¼äµÄÎó²
 		ac.total_assets-=d;
 		ac.loss_times++;
 
-		/*Á¬Ğø¿÷ËğµÄ×î´ó´ÎÊı*/
+		/*è¿ç»­äºæŸçš„æœ€å¤§æ¬¡æ•°*/
 		ac.continuous_loss_temp++;
 		ac.continuous_profit_temp=0;
 		if(ac.continuous_loss<ac.continuous_loss_temp)
-		  ac.continuous_loss=ac.continuous_loss_temp;
+		    ac.continuous_loss=ac.continuous_loss_temp;
 
-	    /*¼ÇÂ¼×î´ó¿÷Ëğ*/
+	        /*è®°å½•æœ€å¤§äºæŸ*/
 		if(ac.max_loss<d)
-		 ac.max_loss=d;
+		    ac.max_loss=d;
 
-		strtemp.Format("±¾´Î¿÷Ëğ%I64u\tÀÛ¼Æ¿÷Ëğ´ÎÊı%d\tÀÛ¼Æ¿÷Ëğ%I64u\t×Ü×Ê²ú%I64u\n\n\n",d,ac.loss_times,ac.loss,ac.total_assets);
-	    append_text(hedit2,(LPTSTR)(LPCTSTR)strtemp);
+		strtemp.Format("æœ¬æ¬¡äºæŸ%I64u\tç´¯è®¡äºæŸæ¬¡æ•°%d\tç´¯è®¡äºæŸ%I64u\tæ€»èµ„äº§%I64u\n\n\n",d,ac.loss_times,ac.loss,ac.total_assets);
+	        append_text(hedit2,(LPTSTR)(LPCTSTR)strtemp);
 
 
 	}
-	if(ac.sign_sellprice==ac.stock.price)  /*ÎŞ¿÷Ëğ£¬ÎŞÀûÈóµÄÉñÆæ×´Ì¬*/
+	
+	if(ac.sign_sellprice==ac.stock.price)  /*æ— äºæŸï¼Œæ— åˆ©æ¶¦çš„ç¥å¥‡çŠ¶æ€*/
 	{
 		ac.no_loss_win_times+=1;
-
-		strtemp.Format("\n\n*********±¾´Î½»Ò×ÎŞÓ¯¿÷**********\t×Ü×Ê²ú%I64u",ac.total_assets);
-	    append_text(hedit2,(LPTSTR)(LPCTSTR)strtemp);
+		strtemp.Format("\n\n*********æœ¬æ¬¡äº¤æ˜“æ— ç›ˆäº**********\tæ€»èµ„äº§%I64u",ac.total_assets);
+	        append_text(hedit2,(LPTSTR)(LPCTSTR)strtemp);
 	}
 
 	append_text(hedit2,"\n\n");
-
-	ac.cash+=ac.sign_sellprice*ac.stock.quantity;   //»ØÁıÏÖ½ğ
-
+	ac.cash+=ac.sign_sellprice*ac.stock.quantity;   //å›ç¬¼ç°é‡‘
 	clear_holdingstock();
 
 }
-
-
-/*
-void AbstractTrade::append_text(HWND h,char *pStr)
-{
-	int nLength =SendMessage(h, WM_GETTEXTLENGTH,0,0); 
-	SendMessage(h, EM_SETSEL, nLength, nLength);    //ËäÈ»postmessage¸ü¿ì£¬µ«postmessageÊÇÒì²½£¬Òª±£Ö¤²ÎÊıÖµµÄ²»±ä¡£
-    //SendMessage(hEdit, EM_SCROLLCARET, 0, 0);
-    SendMessage(h, EM_REPLACESEL, TRUE, (LPARAM)pStr);
-}
-
-*/
-/*
-void AbstractTrade::report(char *code_str)
-{         //¼ÆËãÊı¾İ
-	static int icount=0;
-
-	if(can_sell())
-	{   
-		ac.sign_sellprice=(pmydata-1)->Clsprc;
-		sell((pmydata-1)); 
-	}         //Ğ¡ĞÄpmydataÔ½½ç,²»ÄÜÔÚÕâÀïÓÃpmydata--,ÎªÊ²Ã´£¿£¿
-
-
-	if(ac.profit_times+ac.loss_times+ac.no_loss_win_times==0)
-		       return;                     //Ã»ÓĞ½»Ò×¾Í²»ÓÃ»ã×Ü£¬Õâ»áÁîpreport_varÄÚ´æ¶à³ö¿ÕÓàµÄ£¬ÔİÊ±²»¹Ü
-		
-
-	icount++;
-
-
-
-	preport_var->total_assets=ac.total_assets;      
-	preport_var->profit_times=ac.profit_times;
-	preport_var->loss_times=ac.loss_times;
-	preport_var->profit=ac.profit;
-	preport_var->loss=ac.loss;
-	int aver_profit_times=0,aver_loss_times=0;
-	unsigned long long aver_total_assets=0,aver_profit=0,aver_loss=0;
-
-	for(int i=0;i<icount;i++)           //Ğ¡ĞÄÔ½½ç
-	{
-		aver_loss_times+=(preport_var-i)->loss_times;      //ÓÉÓÚÕâÀïµÈ¼ÛÓÚaver_loss_times=aver_loss_times+(preport_var-i)->loss_times;ËùÒÔ±ØĞëÏÈ¸³³õÖµ
-		aver_profit_times+=(preport_var-i)->profit_times;            
-		aver_total_assets+=(preport_var-i)->total_assets; 
-		aver_profit+=(preport_var-i)->profit; 
-		aver_loss+=(preport_var-i)->loss; 
-	}
-
-	aver_loss_times/=icount;
-	aver_profit_times/=icount;
-	aver_total_assets/=icount;
-	aver_profit/=icount;
-	aver_loss/=icount;
-
-
-	strtemp.Format("´úÂë%s\t×Ê²úÓà¶î%I64u\nÓ¯Àû´ÎÊı%d\t¿÷Ëğ´ÎÊı%d\nÓ¯Àû×Ü¶î%I64u\t¿÷Ëğ×Ü¶î%I64u\n×î´óÓ¯Àû%I64u\t×î´ó¿÷Ëğ%I64u\nÁ¬ĞøÓ¯ÀûµÄ×î´ó´ÎÊı%d\tÁ¬Ğø¿÷ËğµÄ×î´ó´ÎÊı%d\n",code_str,ac.total_assets,ac.profit_times,ac.loss_times,ac.profit,ac.loss,ac.max_profit,ac.max_loss,ac.continuous_profit,ac.continuous_loss);      //ÈıĞĞÊı¾İ£¬±ğÌ«¶à
-	append_text(hedit1,(LPTSTR)(LPCTSTR)strtemp);
-
-
-	strtemp.Format("¼ÆËã%dÖ»¹ÉÆ±\n\nÆ½¾ù×Ü×Ê²úÓà¶î%I64u\n\nÆ½¾ùÓ¯Àû´ÎÊı%d\n\nÆ½¾ù¿÷Ëğ´ÎÊı%d\n\nÆ½¾ùÓ¯Àû×Ü¶î%I64u\n\nÆ½¾ù¿÷Ëğ×Ü¶î%I64u",icount,aver_total_assets,aver_profit_times,aver_loss_times,aver_profit,aver_loss);
-	SetWindowText(hedit3,strtemp);
-
-	//SetWindowText(hedit2," ");
-
-	preport_var++;
-
-}
-*/
 
 
 void AbstractTrade::clear_holdingstock()
@@ -216,7 +142,7 @@ void AbstractTrade::clear_holdingstock()
 
 bool AbstractTrade::not_SST(data* ppdata)
 {
-	if(ppdata->Trdsta==3 || ppdata->Trdsta==6)  //sst¹ÉÆ±²»Âò
+	if(ppdata->Trdsta==3 || ppdata->Trdsta==6)  //sstè‚¡ç¥¨ä¸ä¹°
 		return false;
 	return true;
 }
@@ -224,49 +150,49 @@ bool AbstractTrade::not_SST(data* ppdata)
 
 
 void AbstractTrade::report(char *pcode,int period,report_var *preport_var)
-{         //¼ÆËãÊı¾İ
+{         //è®¡ç®—æ•°æ®
 
 	if(can_sell())
 	{   
 		ac.sign_sellprice=(pmydata-1)->Clsprc;
 		sell((pmydata-1)); 
-	}         //Ğ¡ĞÄpmydataÔ½½ç,²»ÄÜÔÚÕâÀïÓÃpmydata--,ÎªÊ²Ã´£¿£¿
+	}         
 
 
-	if(ac.profit_times+ac.loss_times+ac.no_loss_win_times!=0)     //ÕâÑùĞ´·´¶øÃ»gotoºÃ¿´
+	if(ac.profit_times+ac.loss_times+ac.no_loss_win_times!=0)     
 	{       
-			preport_var->icount++;
-			preport_var->total_assets+=ac.total_assets;      
-			preport_var->profit_times+=ac.profit_times;
-			preport_var->loss_times+=ac.loss_times;
-			preport_var->profit+=ac.profit;
-			preport_var->loss+=ac.loss;
+		preport_var->icount++;
+		preport_var->total_assets+=ac.total_assets;      
+		preport_var->profit_times+=ac.profit_times;
+		preport_var->loss_times+=ac.loss_times;
+		preport_var->profit+=ac.profit;
+		preport_var->loss+=ac.loss;
 	}
 	else if(preport_var->icount==0)
 	{   
-		strtemp.Format("´úÂë%s\n\nÖÜÆÚ%dÌì\n\n×Ü×Ê²úÓà¶î%I64u\n\nÓ¯Àû´ÎÊı%d\n\n×î´óÁ¬ĞøÓ¯Àû´ÎÊı%d\n\n¿÷Ëğ´ÎÊı%d\n\n×î´óÁ¬Ğø¿÷Ëğ´ÎÊı%d\n\nÓ¯Àû×Ü¶î%I64u\n\n×î´óÓ¯Àû¶î%I64u\n\n¿÷Ëğ×Ü¶î%I64u\n\n×î´ó¿÷Ëğ¶î%I64u\n\n",pcode,period,ac.total_assets,ac.profit_times,ac.continuous_profit,ac.loss_times,ac.continuous_loss,ac.profit,ac.max_profit,ac.loss,ac.max_loss);
+		strtemp.Format("ä»£ç %s\n\nå‘¨æœŸ%då¤©\n\næ€»èµ„äº§ä½™é¢%I64u\n\nç›ˆåˆ©æ¬¡æ•°%d\n\næœ€å¤§è¿ç»­ç›ˆåˆ©æ¬¡æ•°%d\n\näºæŸæ¬¡æ•°%d\n\næœ€å¤§è¿ç»­äºæŸæ¬¡æ•°%d\n\nç›ˆåˆ©æ€»é¢%I64u\n\næœ€å¤§ç›ˆåˆ©é¢%I64u\n\näºæŸæ€»é¢%I64u\n\næœ€å¤§äºæŸé¢%I64u\n\n",pcode,period,ac.total_assets,ac.profit_times,ac.continuous_profit,ac.loss_times,ac.continuous_loss,ac.profit,ac.max_profit,ac.loss,ac.max_loss);
 		append_text(hedit1,(LPTSTR)(LPCTSTR)strtemp);
-	    strtemp.Format("¼ÆËã0Ö»¹ÉÆ±\n\nÖÜÆÚ%dÌì\n\n",period);
-	    append_text(hedit3,(LPTSTR)(LPCTSTR)strtemp);   
+	        strtemp.Format("è®¡ç®—0åªè‚¡ç¥¨\n\nå‘¨æœŸ%då¤©\n\n",period);
+	        append_text(hedit3,(LPTSTR)(LPCTSTR)strtemp);   
 		return;
 	}
 
 	int aver_profit_times=0,aver_loss_times=0;
 	unsigned long long aver_total_assets=0,aver_profit=0,aver_loss=0;
 
-	aver_loss_times=preport_var->loss_times/preport_var->icount;      //ÓÉÓÚÕâÀïµÈ¼ÛÓÚaver_loss_times=aver_loss_times+(preport_var-i)->loss_times;ËùÒÔ±ØĞëÏÈ¸³³õÖµ
+	aver_loss_times=preport_var->loss_times/preport_var->icount;     
 	aver_profit_times=preport_var->profit_times/preport_var->icount;            
 	aver_total_assets=preport_var->total_assets/preport_var->icount; 
 	aver_profit=preport_var->profit/preport_var->icount; 
 	aver_loss=preport_var->loss/preport_var->icount; 
 
-	strtemp.Format("´úÂë%s\n\nÖÜÆÚ%dÌì\n\n×Ü×Ê²úÓà¶î%I64u\n\nÓ¯Àû´ÎÊı%d\n\n×î´óÁ¬ĞøÓ¯Àû´ÎÊı%d\n\n¿÷Ëğ´ÎÊı%d\n\n×î´óÁ¬Ğø¿÷Ëğ´ÎÊı%d\n\nÓ¯Àû×Ü¶î%I64u\n\n×î´óÓ¯Àû¶î%I64u\n\n¿÷Ëğ×Ü¶î%I64u\n\n×î´ó¿÷Ëğ¶î%I64u\n\n",pcode,period,ac.total_assets,ac.profit_times,ac.continuous_profit,ac.loss_times,ac.continuous_loss,ac.profit,ac.max_profit,ac.loss,ac.max_loss);
+	strtemp.Format("ä»£ç %s\n\nå‘¨æœŸ%då¤©\n\næ€»èµ„äº§ä½™é¢%I64u\n\nç›ˆåˆ©æ¬¡æ•°%d\n\næœ€å¤§è¿ç»­ç›ˆåˆ©æ¬¡æ•°%d\n\näºæŸæ¬¡æ•°%d\n\næœ€å¤§è¿ç»­äºæŸæ¬¡æ•°%d\n\nç›ˆåˆ©æ€»é¢%I64u\n\næœ€å¤§ç›ˆåˆ©é¢%I64u\n\näºæŸæ€»é¢%I64u\n\næœ€å¤§äºæŸé¢%I64u\n\n",pcode,period,ac.total_assets,ac.profit_times,ac.continuous_profit,ac.loss_times,ac.continuous_loss,ac.profit,ac.max_profit,ac.loss,ac.max_loss);
 	append_text(hedit1,(LPTSTR)(LPCTSTR)strtemp);
 
-	strtemp.Format("¼ÆËã%dÖ»¹ÉÆ±\n\nÖÜÆÚ%dÌì\n\nÆ½¾ù×Ü×Ê²úÓà¶î%I64u\n\nÆ½¾ùÓ¯Àû´ÎÊı%d\n\nÆ½¾ù¿÷Ëğ´ÎÊı%d\n\nÆ½¾ùÓ¯Àû×Ü¶î%I64u\n\nÆ½¾ù¿÷Ëğ×Ü¶î%I64u",preport_var->icount,period,aver_total_assets,aver_profit_times,aver_loss_times,aver_profit,aver_loss);
+	strtemp.Format("è®¡ç®—%dåªè‚¡ç¥¨\n\nå‘¨æœŸ%då¤©\n\nå¹³å‡æ€»èµ„äº§ä½™é¢%I64u\n\nå¹³å‡ç›ˆåˆ©æ¬¡æ•°%d\n\nå¹³å‡äºæŸæ¬¡æ•°%d\n\nå¹³å‡ç›ˆåˆ©æ€»é¢%I64u\n\nå¹³å‡äºæŸæ€»é¢%I64u",preport_var->icount,period,aver_total_assets,aver_profit_times,aver_loss_times,aver_profit,aver_loss);
 	append_text(hedit3,(LPTSTR)(LPCTSTR)strtemp);
 
-	//strtemp.Format("¼ÆËã%dÖ»¹ÉÆ±\n\nÖÜÆÚ%dÌì\n\nÆ½¾ù×Ü×Ê²úÓà¶î%I64u\n\nÆ½¾ùÓ¯Àû´ÎÊı%d\n\nÆ½¾ù¿÷Ëğ´ÎÊı%d\n\nÆ½¾ùÓ¯Àû×Ü¶î%I64u\n\nÆ½¾ù¿÷Ëğ×Ü¶î%I64u",preport_var->icount,period,aver_total_assets,aver_profit_times,aver_loss_times,aver_profit,aver_loss);
+	//strtemp.Format("è®¡ç®—%dåªè‚¡ç¥¨\n\nå‘¨æœŸ%då¤©\n\nå¹³å‡æ€»èµ„äº§ä½™é¢%I64u\n\nå¹³å‡ç›ˆåˆ©æ¬¡æ•°%d\n\nå¹³å‡äºæŸæ¬¡æ•°%d\n\nå¹³å‡ç›ˆåˆ©æ€»é¢%I64u\n\nå¹³å‡äºæŸæ€»é¢%I64u",preport_var->icount,period,aver_total_assets,aver_profit_times,aver_loss_times,aver_profit,aver_loss);
 	//append_text(hedit3,(LPTSTR)(LPCTSTR)strtemp);
 	//SetWindowText(hedit3,strtemp);
 
