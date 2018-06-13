@@ -19,19 +19,19 @@ void Turtle::drop_firstTR(TR *t)
 {
 	while(t->front!=NULL)
 		t=t->front;
-	t->next->front=NULL;  //½«ÏÂÒ»Î»ÉèÎªÁ´Í·
+	t->next->front=NULL;  
 	delete t;
 }
 void Turtle::drop_allTR(TR *t)
 {
-	TR *tn;                //tnÎªÁÙÊ±±äÁ¿
+	TR *tn;              
 	while(t->front!=NULL)
 	{
 		tn=t;
 		t=t->front;
 		delete tn;
 	}
-		delete t; //Á´Í·±ğÍüÁË
+		delete t; 
 }
 
 /*
@@ -46,9 +46,9 @@ TR* Turtle::find_lastTR(TR *n)
 /*
 double Turtle::calculate_TR(data *ppmydata)
 {
-	double d1=fabs(ppmydata->Loprc - pmydata->Hiprc);   //1.µ±Ç°½»Ò×ÈÕµÄ×î¸ß¼ÛÓë×îµÍ¼Û¼äµÄ²¨·ù
-	double d2=fabs((ppmydata-1)->Clsprc - pmydata->Hiprc);   //2.½ñÌìµÄ×î¸ß¼ÛºÍ×òÌìµÄÊÕÅÌ¼ÛÖ®¼äµÄ¾àÀë
-	double d3=fabs((ppmydata-1)->Clsprc - pmydata->Loprc);   //3.½ñÌìµÄ×îµÍ¼ÛºÍ×òÌìµÄÊÕÅÌ¼ÛÖ®¼äµÄ¾àÀë
+	double d1=fabs(ppmydata->Loprc - pmydata->Hiprc);   //1.å½“å‰äº¤æ˜“æ—¥çš„æœ€é«˜ä»·ä¸æœ€ä½ä»·é—´çš„æ³¢å¹…
+	double d2=fabs((ppmydata-1)->Clsprc - pmydata->Hiprc);   //2.ä»Šå¤©çš„æœ€é«˜ä»·å’Œæ˜¨å¤©çš„æ”¶ç›˜ä»·ä¹‹é—´çš„è·ç¦»
+	double d3=fabs((ppmydata-1)->Clsprc - pmydata->Loprc);   //3.ä»Šå¤©çš„æœ€ä½ä»·å’Œæ˜¨å¤©çš„æ”¶ç›˜ä»·ä¹‹é—´çš„è·ç¦»
 	if(d2<d3)
 		d2=d3;
 	if(d1<d2)
@@ -59,25 +59,25 @@ double Turtle::calculate_TR(data *ppmydata)
 
 void Turtle::set_TR_unfull(TR *n,double dn)
 {
-		TR *tn=new TR;   //tnÊÇÁÙÊ±±äÁ¿
-		tn->front=n;
-		n=tn;
-		n->value=dn;
+	TR *tn=new TR;  
+	tn->front=n;
+	n=tn;
+	n->value=dn;
 }
 */
 
-TR *Turtle::calculate_TR(int num,TR *t) //°´Ö·´«µİÖ¸Õë£¬Ö¸ÕëµÄÖ¸Ïò»á·¢Éú¸Ä±ä£¬×Ü»áÖ¸ÏòÁ´Î²
+TR *Turtle::calculate_TR(int num,TR *t) 
 {
 
-	 double d1=fabs((pmydata-1)->Loprc - (pmydata-1)->Hiprc);   //1.µ±Ç°½»Ò×ÈÕµÄ×î¸ß¼ÛÓë×îµÍ¼Û¼äµÄ²¨·ù
-	 double d2=fabs((pmydata-2)->Clsprc - (pmydata-1)->Hiprc);   //2.½ñÌìµÄ×î¸ß¼ÛºÍ×òÌìµÄÊÕÅÌ¼ÛÖ®¼äµÄ¾àÀë
-	 double d3=fabs((pmydata-2)->Clsprc - (pmydata-1)->Loprc);   //3.½ñÌìµÄ×îµÍ¼ÛºÍ×òÌìµÄÊÕÅÌ¼ÛÖ®¼äµÄ¾àÀë
+	 double d1=fabs((pmydata-1)->Loprc - (pmydata-1)->Hiprc);   //1.å½“å‰äº¤æ˜“æ—¥çš„æœ€é«˜ä»·ä¸æœ€ä½ä»·é—´çš„æ³¢å¹…
+	 double d2=fabs((pmydata-2)->Clsprc - (pmydata-1)->Hiprc);   //2.ä»Šå¤©çš„æœ€é«˜ä»·å’Œæ˜¨å¤©çš„æ”¶ç›˜ä»·ä¹‹é—´çš„è·ç¦»
+	 double d3=fabs((pmydata-2)->Clsprc - (pmydata-1)->Loprc);   //3.ä»Šå¤©çš„æœ€ä½ä»·å’Œæ˜¨å¤©çš„æ”¶ç›˜ä»·ä¹‹é—´çš„è·ç¦»
 	 if(d2<d3)
 		 d2=d3;
 	 if(d1<d2)
 		 d1=d2;
 	
-	TR *tn=new TR;   //tnÊÇÁÙÊ±±äÁ¿
+	TR *tn=new TR;
 	tn->value=d1;
 	tn->front=t;
 	t->next=tn;
@@ -98,133 +98,113 @@ double Turtle::get_N(TR *t)
 
 }
 
-/*¶ÔËÙ¶ÈÒªÇó²»¸ß£¬µ«ÄÚ´æÒªÉ÷ÓÃ*/
-void Turtle::run_market(char *pcode,int num/*ÌìÊı*/,int period/*ÖÜÆÚ*/,report_var *preport_var)
+
+void Turtle::run_market(char *pcode,int num/*å¤©æ•°*/,int period/*å‘¨æœŸ*/,report_var *preport_var)
 {
 	if(pmydata==NULL)
 		return;
-	//µÚÒ»Ììµ¥¶ÀËãN£¬µÚ¶şÌì²»ËãN£¬Áô¸øµÚÈıÌìÀ´Ëã
+
 	TR *tr=new TR;
 	tr->front=NULL;
-	tr->value=fabs(pmydata->Loprc - pmydata->Hiprc);  //µÚÒ»ÌìµÄNÓÃµ±Ç°½»Ò×ÈÕµÄ×î¸ß¼ÛÓë×îµÍ¼Û¼äµÄ²¨·ù
+	tr->value=fabs(pmydata->Loprc - pmydata->Hiprc);  
 	pmydata+=2;
 
-	//´ÓµÚÈıÌì¿ªÊ¼
 	double N;
 	for(int t=3;t<=num;t++)
 	{
 		tr=calculate_TR(t, tr);
-		if(t>15)      //µÚ16Ìì²Å¿ªÊ¼½»Ò×£¬ÒòÎª´ËÊ±²Å¼¯Âú15¸ötrÀ´ÇóN
+		if(t>15)      //ç¬¬16å¤©æ‰å¼€å§‹äº¤æ˜“ï¼Œå› ä¸ºæ­¤æ—¶æ‰é›†æ»¡15ä¸ªtræ¥æ±‚N
 		{
 
 			N=get_N(tr);
-
-			refresh_holding_data();//Ë¢ĞÂ³ÖÓĞ¹ÉÆ±µÄÊı¾İ£¬Ö÷Òª¿´ÓĞÃ»ÓĞ´¥¶¯Ö¹Ëğ/Ó¯
-
-			if(can_buy())     //Ã»ÓĞ³ÖÓĞ¹ÉÆ±
+			refresh_holding_data();//åˆ·æ–°æŒæœ‰è‚¡ç¥¨çš„æ•°æ®ï¼Œä¸»è¦çœ‹æœ‰æ²¡æœ‰è§¦åŠ¨æ­¢æŸ/ç›ˆ
+			if(can_buy())     //æ²¡æœ‰æŒæœ‰è‚¡ç¥¨
 			{
-						if(is_highest(t,period,pmydata)/* && not_SST(pmydata)*/)
-						{
-							/*
-							ac.stock.N=N;
-							int n=(ac.cash*0.05)/N;   //ÓÉÓÚ´Ë´¦ÓÃÈ«²Ö²Ù×÷£¬ËùÒÔÕÛÖĞĞ´·¨£¬ÆäÊµÓ¦¸ÃÂòÈëµÄÊıÁ¿¶¼ÒÔNÎªµ¥Î»
-							ac.stock.Nnum=n;
-							*/
-			               
-			 				buy(pmydata);
-
-						}
+				if(is_highest(t,period,pmydata)/* && not_SST(pmydata)*/)
+				{
+					/*
+					ac.stock.N=N;
+					int n=(ac.cash*0.05)/N;   
+					ac.stock.Nnum=n;
+					*/
+			 		buy(pmydata);
+				}
 			}
 			else
 			{
-						if(is_lowest(t,period,pmydata) /*|| stop_lossing()|| stop_winning()*/) //Âô³öĞÅºÅÊÇÃô¸ĞµÄ£¬½µµÍ·çÏÕ
-						{
-							sell(pmydata);   //±ØĞëÏÈÉèÖÃÂô³öĞÅºÅac.sign_sellprice
-						}
+				if(is_lowest(t,period,pmydata) /*|| stop_lossing()|| stop_winning()*/) 
+				{
+					sell(pmydata);   //å¿…é¡»å…ˆè®¾ç½®å–å‡ºä¿¡å·ac.sign_sellprice
+				}
 			}
-
-		    drop_firstTR(tr);   //Ò»Ìì¹ıºó£¬ÈÓµôµÚÒ»¸öN
-
+			drop_firstTR(tr);   
 		}
-		pmydata++;   //ÆäËûÎ»ÖÃ±ğÒÆ¶¯Ö¸Õë£¬Ö»ÓĞÕâÀïÒÆ¶¯
+		pmydata++;   //å…¶ä»–ä½ç½®åˆ«ç§»åŠ¨æŒ‡é’ˆï¼Œåªæœ‰è¿™é‡Œç§»åŠ¨
 	 }
 	 drop_allTR(tr);
 	 report(pcode,period,preport_var);
-
 	 pmydata=pmydata_old;
 }
 
 
 
-
-bool Turtle::is_highest(int n/*µÚ¼¸Ìì*/,int period/*ÖÜÆÚ*/,data *ppmydata)
+bool Turtle::is_highest(int n/*ç¬¬å‡ å¤©*/,int period/*å‘¨æœŸ*/,data *ppmydata)
 {
 
 	if(n>=period)
 	{
-		    int i=1;
-			double tHiprcp=pmydata->Hiprc/1.02;   //±£Ö¤µ±ÌìµÄ×î¸ß¼Û±ÈÇ°n-1ÌìµÄ×î¸ß¼Û¸ß2%(ÕâÒ²ËãÊÇ¹ıÂËÆ÷Ò»²¿·Ö£©
-			while(i<period && tHiprcp > (ppmydata-i)->Hiprc  ) 
+		int i=1;
+		double tHiprcp=pmydata->Hiprc/1.02;   //ä¿è¯å½“å¤©çš„æœ€é«˜ä»·æ¯”å‰n-1å¤©çš„æœ€é«˜ä»·é«˜2%(è¿™ä¹Ÿç®—æ˜¯è¿‡æ»¤å™¨ä¸€éƒ¨åˆ†ï¼‰
+		while(i<period && tHiprcp > (ppmydata-i)->Hiprc  ) 
+			i++;
+
+		if(i==period-1)       
+		{
+			i=1;               //å½“ä»·æ ¼è¶…è¿‡å‰n-1å¤©çš„æœ€é«˜ä»·çš„1%æ—¶ï¼Œå‘å‡ºä¹°å…¥ä¿¡å·
+			while(i<period)
+			{
+				if(ac.sign_buyprice<(ppmydata-i)->Hiprc)   
+				ac.sign_buyprice=(ppmydata-i)->Hiprc;
 				i++;
-
-			if(i==period-1)       
-			{
-				i=1;               //µ±¼Û¸ñ³¬¹ıÇ°n-1ÌìµÄ×î¸ß¼ÛµÄ1%Ê±£¬·¢³öÂòÈëĞÅºÅ
-				while(i<period)
-				{
-					if(ac.sign_buyprice<(ppmydata-i)->Hiprc)   
-					   ac.sign_buyprice=(ppmydata-i)->Hiprc;
-					i++;
-				}
-				ac.sign_buyprice*=1.02;
-			    return true;
 			}
+			ac.sign_buyprice*=1.02;
+			return true;
+		}
 	}
-		return false;
-
+	return false;
 }
 
 
-bool Turtle::is_lowest(int n,int period,data *ppmydata)    //periodÎªÖÜÆÚ
+bool Turtle::is_lowest(int n,int period,data *ppmydata)    //periodä¸ºå‘¨æœŸ
 {
 	if(n>=period)
 	{
-		    int i=1;
-			while(i<period && ppmydata->Clsprc < (ppmydata-i)->Clsprc)   //ÓëÂòÈë²»Í¬£¬Ò»µÍÓÚÇ°n-1Ìì×îµÍ¼Û·¢³öĞÅºÅ
-               i++;
-
-			if(i==period-1)       
+		int i=1;
+		while(i<period && ppmydata->Clsprc < (ppmydata-i)->Clsprc)   //ä¸ä¹°å…¥ä¸åŒï¼Œä¸€ä½äºå‰n-1å¤©æœ€ä½ä»·å‘å‡ºä¿¡å·
+                	i++;
+		if(i==period-1)       
+		{
+			i=1;  
+			ac.sign_sellprice=999999999; 
+			while(i<period)
 			{
-				i=1;  
-				ac.sign_sellprice=999999999; //ÎŞÊµ¼ÊÒâÒå£¬¼¼ÇÉ£¬±ãÓÚ±È½Ï
-				while(i<period)
-				{
-					if(ac.sign_sellprice>(ppmydata-i)->Hiprc)   
-					   ac.sign_sellprice=(ppmydata-i)->Hiprc;
-					i++;
-				}
-			    return true;
+				if(ac.sign_sellprice>(ppmydata-i)->Hiprc)   
+				ac.sign_sellprice=(ppmydata-i)->Hiprc;
+				i++;
 			}
+			return true;
+		}
 	 }
-     		return false;
+     	return false;
 }
 
-bool Turtle::stop_lossing()  //Ö¹Ëğ£¬»¹Ã»ÓĞ³ö³¡ĞÅºÅ£¬µ«¿÷ËğÒÑ³¬¹ı¿É³ĞÊÜ×î´ó·çÏÕ¡ª¡ªËğÊ§³¬¹ı×Ü×Ê²úµÄ5%£¬ÒÔNÎªµ¥Î»(ÒÔ´ËÀ´Éè¶¨×î´ó·çÏÕ)
+bool Turtle::stop_lossing()  //æ­¢æŸï¼Œè¿˜æ²¡æœ‰å‡ºåœºä¿¡å·ï¼Œä½†äºæŸå·²è¶…è¿‡å¯æ‰¿å—æœ€å¤§é£é™©â€”â€”æŸå¤±è¶…è¿‡æ€»èµ„äº§çš„5%ï¼Œä»¥Nä¸ºå•ä½(ä»¥æ­¤æ¥è®¾å®šæœ€å¤§é£é™©)
 {
-	if((ac.stock.price-pmydata->Loprc)>(4*ac.stock.N))   //¹Ì¶¨Ö¹Ëğµã
+	if((ac.stock.price-pmydata->Loprc)>(4*ac.stock.N))   //å›ºå®šæ­¢æŸç‚¹
 	{
 		ac.sign_sellprice=ac.stock.price-(4*ac.stock.N);
 		return true;
 	}
-		/*
-	if((ac.stock.price-pmydata->Loprc)*ac.stock.quantity > (ac.stock.quantity*ac.stock.price)*0.10)
-	{
-
-		ac.sign_sellprice = ac.stock.price*0.9;  //Ôİ¶¨,ÒòÎªÊÇÈ«²Ö£¬ËùÒÔ×Ü×Ê²úµÄ5%ËğÊ§£¬Ô¼µÈÓÚ¹É¼ÛµÄ5%ÏÂµø
-		return true;
-
-	}
-			*/
 	return false;
 
 }
@@ -233,10 +213,10 @@ bool Turtle::stop_winning()
 {
 	if(pmydata->Loprc < ac.stock.Hiprc*0.80 )
 	{   
-		ac.sign_sellprice = ac.stock.Hiprc*0.80 ; //Ôİ¶¨
+		ac.sign_sellprice = ac.stock.Hiprc*0.80 ; //æš‚å®š
 		return true;           
 	}
-		return false;
+	return false;
 }
 
 
@@ -247,7 +227,6 @@ void Turtle::refresh_holding_data()
 	{
 		if(pmydata->Hiprc > ac.stock.Hiprc)
 		 ac.stock.Hiprc=pmydata->Hiprc;
-
 	}
 }
 
@@ -256,31 +235,27 @@ bool Turtle::is_goldcross(int n,int small_period,int big_period)
 {
 	if(n>=big_period)
 	{
-		    float samll_average=0,big_average=0;
+		float samll_average=0,big_average=0;
 		    
-			for(int i=0;i<small_period;i++)             //Ğ¡µÄnÌìÆ½¾ù¼Û¸ñ
-			{
-				samll_average+=(pmydata-i)->Clsprc;         //¶¼ÓÃÊÕÅÌ¼ÛºÃÏñ²»Ì«×¼È·£¬µ±Ìì²»Ó¦¸ÃÓÃÊÕÅÌ¼Û£¬¶øÊÇÓÃ×î¸ß¼Û£¬ÒòÎªÒª¿¼ÂÇ±»ÓÕ¶àµÄÇé¿ö
-			}
-            samll_average/=small_period;
-
-			
-			for(int i=0;i<big_period;i++)               //´óµÄnÌìÆ½¾ù¼Û¸ñ
-			{
-				big_average+=(pmydata-i)->Clsprc;
-			}
-            big_average/=big_period;
-
-
-			if(samll_average>big_average)
-			{
-				strtemp.Format("½ğ²æ³öÏÖ\n");
-			   //strtemp.Format("\t%dÓë%dÌìµÄÆ½¾ùÒÆ¶¯Ïß½»²æ(½ğ²æ)ÔÚ%f¼ÛÎ»³öÏÖ\n",small_period,big_period,pmydata->Clsprc);
-	           append_text(hedit2,(LPTSTR)(LPCTSTR)strtemp);
-			   return true;
-			}
+		for(int i=0;i<small_period;i++)             
+		{
+			samll_average+=(pmydata-i)->Clsprc;         
+		}
+        	samll_average/=small_period;
+		for(int i=0;i<big_period;i++)             
+		{
+			big_average+=(pmydata-i)->Clsprc;
+		}
+       		big_average/=big_period;
+		if(samll_average>big_average)
+		{
+			strtemp.Format("é‡‘å‰å‡ºç°\n");
+			//strtemp.Format("\t%dä¸%då¤©çš„å¹³å‡ç§»åŠ¨çº¿äº¤å‰(é‡‘å‰)åœ¨%fä»·ä½å‡ºç°\n",small_period,big_period,pmydata->Clsprc);
+	         	append_text(hedit2,(LPTSTR)(LPCTSTR)strtemp);
+			return true;
+		}
 	}
-		return false;
+	return false;
 
 }
 
@@ -289,30 +264,26 @@ bool Turtle::is_deathcross(int n,int small_period,int big_period)
 {
 	if(n>=big_period)
 	{
-		    float samll_average=0,big_average=0;
-		    
-			for(int i=0;i<small_period;i++)             //Ğ¡µÄnÌìÆ½¾ù¼Û¸ñ
-			{
-				samll_average+=(pmydata-i)->Clsprc;
-			}
-            samll_average/=small_period;
-
-			
-			for(int i=0;i<big_period;i++)               //´óµÄnÌìÆ½¾ù¼Û¸ñ
-			{
-				big_average+=(pmydata-i)->Clsprc;
-			}
-            big_average/=big_period;
-
-
-			if(samll_average<big_average)
-			{
-				strtemp.Format("ËÀ²æ³öÏÖ\n");
-			//strtemp.Format("\t%dÓë%dÌìµÄÆ½¾ùÒÆ¶¯Ïß½»²æ(ËÀ²æ)ÔÚ%f¼ÛÎ»³öÏÖ\n",small_period,big_period,pmydata->Clsprc);
-	        append_text(hedit2,(LPTSTR)(LPCTSTR)strtemp);
-			   return true;
-			}
+		float samll_average=0,big_average=0;
+		for(int i=0;i<small_period;i++)             
+		{
+			samll_average+=(pmydata-i)->Clsprc;
+		}
+        	samll_average/=small_period;
+		
+		for(int i=0;i<big_period;i++)            
+		{
+			big_average+=(pmydata-i)->Clsprc;
+		}
+         	big_average/=big_period;
+		if(samll_average<big_average)
+		{
+			strtemp.Format("æ­»å‰å‡ºç°\n");
+			//strtemp.Format("\t%dä¸%då¤©çš„å¹³å‡ç§»åŠ¨çº¿äº¤å‰(æ­»å‰)åœ¨%fä»·ä½å‡ºç°\n",small_period,big_period,pmydata->Clsprc);
+	        	append_text(hedit2,(LPTSTR)(LPCTSTR)strtemp);
+			return true;
+		}
 	}
-		return false;
+	return false;
 
 }
