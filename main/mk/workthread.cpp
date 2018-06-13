@@ -1,4 +1,4 @@
-#include "StdAfx.h"    //±ØĞë
+#include "StdAfx.h"    
 #include "ADOConn.h"
 #include <string>
 #include <fstream>
@@ -9,12 +9,12 @@ using namespace std;
 
 #define filepath "" 
 
-/*È«¾Ö±äÁ¿¾¡Á¿ÉÙÓÃ£¬±Ï¾¹²»ºÃÎ¬»¤£¬ÇÒÕ¼ÄÚ´æ*/
-HWND hedit1=NULL,hedit2=NULL,hedit3=NULL;         //×÷ÎªÍâ²¿±äÁ¿£¬¶ÔÕû¸ö½â¾ö·½°¸¿É¼û
+
+HWND hedit1=NULL,hedit2=NULL,hedit3=NULL;        
 
 char **pstr_code=NULL;
-int pstr_code_size=0;    //ÎªÁË·½±ãÉ¾³ı¶¯Ì¬Êı×é,ÕæÏë²»µ½ÔõÑù»ñÈ¡¶¯Ì¬¶şÎ¬Êı×é´óĞ¡
-char pstr_start_time[11]={' '};  //³õÖµÎªÒ»¸ö¿Õ¸ñ×Ö·û£¬²»ÊÇ¿Õ×Ö·û´®
+int pstr_code_size=0;    
+char pstr_start_time[11]={' '};  
 char pstr_end_time[11]={' '};
 
 report_var *preport_var=NULL,*preport_var_old=NULL;          
@@ -24,7 +24,7 @@ void write_in_db(ADOConn *pa);
 void calculate(ADOConn *pa);
 
 
-unsigned int __stdcall WorkThrd(void * pParam)  //²ÎÊıÊÇ¶Ô»°¿ò´°¿ÚÀà
+unsigned int __stdcall WorkThrd(void * pParam)  
 {
 
 
@@ -35,72 +35,67 @@ unsigned int __stdcall WorkThrd(void * pParam)  //²ÎÊıÊÇ¶Ô»°¿ò´°¿ÚÀà
 	calculate(&a);
 	
 
-	AfxMessageBox("¹¤×÷Íê³É");
+	AfxMessageBox("å·¥ä½œå®Œæˆ");
     return 0;
 }
 
-/*
 void write_in_db(ADOConn *pa)
 {
-	char tstr[18][17]={'0'};                 //ÎŞËùÎ½ËÙ¶È¡£ËÙ¶È×î¿ìµÄÊÇÒ»´ÎĞÔ¶ÁÈ¡Êı¾İ£¬È»ºóĞ´Èë¡£
-	string s;   //stringÓĞÖØÔØ¡°+¡±,Á¬½Ó¶à¸ö×Ö·û´®Ê±·½±ã
+	char tstr[18][17]={'0'};                
+	string s;   
 	_bstr_t bstrSQL;
 
 	int icount=0;
 
-
-
 	FILE* pfile;
 	pfile=fopen(filepath,"r");
-    //²»ÖªÎªÊ²Ã´£¬×Ü»á¶à¶ÁÒ»ĞĞ£¬ËùÒÔ¼õÈ¥1
-    while(fscanf(pfile,"%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s\n",&tstr[1],&tstr[2],&tstr[3],&tstr[4],&tstr[5],&tstr[6],&tstr[7],&tstr[8],&tstr[9],&tstr[10],&tstr[11],&tstr[12],&tstr[13],&tstr[14],&tstr[15],&tstr[16],&tstr[17])==17)     //·µ»ØÖµÎª³É¹¦´«µİµÄ²ÎÊı¸öÊı      %ld²»ĞĞ£¬Òª%lld²ÅĞĞ
+
+        while(fscanf(pfile,"%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s\n",&tstr[1],&tstr[2],&tstr[3],&tstr[4],&tstr[5],&tstr[6],&tstr[7],&tstr[8],&tstr[9],&tstr[10],&tstr[11],&tstr[12],&tstr[13],&tstr[14],&tstr[15],&tstr[16],&tstr[17])==17)     //è¿”å›å€¼ä¸ºæˆåŠŸä¼ é€’çš„å‚æ•°ä¸ªæ•°      %ldä¸è¡Œï¼Œè¦%lldæ‰è¡Œ
 	{
 
-	//s=s+tstr[1]+"'"+tstr[1]+"','"+tstr[2]+"','"+tstr[3]+"','"+tstr[4]+"','"+tstr[5]+"','"+tstr[6]+"','"+tstr[7]+"','"+tstr[8]+"','"+tstr[9]+"','"+tstr[10]+"','"+tstr[11]+"','"+tstr[12]+"','"+tstr[13]+"','"+tstr[14]+"','"+tstr[15]+"','"+tstr[16]+"','"+tstr[17]+"')";
-	//AfxMessageBox(s.c_str());
+	    //s=s+tstr[1]+"'"+tstr[1]+"','"+tstr[2]+"','"+tstr[3]+"','"+tstr[4]+"','"+tstr[5]+"','"+tstr[6]+"','"+tstr[7]+"','"+tstr[8]+"','"+tstr[9]+"','"+tstr[10]+"','"+tstr[11]+"','"+tstr[12]+"','"+tstr[13]+"','"+tstr[14]+"','"+tstr[15]+"','"+tstr[16]+"','"+tstr[17]+"')";
+	    //AfxMessageBox(s.c_str());
 
-
-	//ĞÂµÄÖ¤È¯´úÂë£¬½¨Á¢¸öĞÂ±í,Èç¹û±íÒÑ¾­´æÔÚ£¬ÒÀÈ»ÄÜ¹»ÔËĞĞÏÂÈ¥¡£
-	if(strcmp(tstr[0],tstr[1])!=0)   //×Ö·ûÊı×éµÄ²Ù×÷ÒªÓÃº¯ÊıÀ´£¬st1=st2ÏàµÈÔòÊä³ö0£¬st1<st2Êä³ö-1£¬st1>st2Êä³ö1
-	{
-	bstrSQL="CREATE TABLE [";         //ÒÔ´¿Êı×é×ö±íÃû£¬¼Ó¸öÖĞÀ¨ºÅ¾ÍºÃÁË£¬²»ÖªÎªÊ²Ã´
-	bstrSQL+=tstr[1];
-	bstrSQL+="](Stkcd varchar(7),Trddt date,Opnprc decimal(7,3),Hiprc decimal(7,3),Loprc decimal(7,3),Clsprc decimal(7,3),Dnshrtrd numeric(12, 0),Dnvaltrd money,Dsmvosd money,Dsmvtll money,Dretwd varchar(12),Dretnd varchar(12),Adjprcwd decimal(10,3),Adjprcnd decimal(10,3),Markettype tinyint,Capchgdt date,Trdsta tinyint)";
-	//AfxMessageBox(bstrSQL);
-	pa->ExecuteSQL(bstrSQL);
-	memcpy(tstr[0],tstr[1],6);   //copyÇ°6¸ö×Ö·û
-	}
+	    //æ–°çš„è¯åˆ¸ä»£ç ï¼Œå»ºç«‹ä¸ªæ–°è¡¨
+	    if(strcmp(tstr[0],tstr[1])!=0)  
+	    {
+	        bstrSQL="CREATE TABLE [";      
+	        bstrSQL+=tstr[1];
+	        bstrSQL+="](Stkcd varchar(7),Trddt date,Opnprc decimal(7,3),Hiprc decimal(7,3),Loprc decimal(7,3),Clsprc decimal(7,3),Dnshrtrd numeric(12, 0),Dnvaltrd money,Dsmvosd money,Dsmvtll money,Dretwd varchar(12),Dretnd varchar(12),Adjprcwd decimal(10,3),Adjprcnd decimal(10,3),Markettype tinyint,Capchgdt date,Trdsta tinyint)";
+	        //AfxMessageBox(bstrSQL);
+	        pa->ExecuteSQL(bstrSQL);
+	        memcpy(tstr[0],tstr[1],6);   
+	    }
 
 	
-	s="INSERT INTO [";
-	s=s+tstr[1]+"] VALUES ('"+tstr[1]+"','"+tstr[2]+"','"+tstr[3]+"','"+tstr[4]+"','"+tstr[5]+"','"+tstr[6]+"','"+tstr[7]+"','"+tstr[8]+"','"+tstr[9]+"','"+tstr[10]+"','"+tstr[11]+"','"+tstr[12]+"','"+tstr[13]+"','"+tstr[14]+"','"+tstr[15]+"','"+tstr[16]+"','"+tstr[17]+"')";
-	//AfxMessageBox(s.c_str());
-	bstrSQL=s.c_str();
-	pa->ExecuteSQL(bstrSQL);
+	    s="INSERT INTO [";
+	    s=s+tstr[1]+"] VALUES ('"+tstr[1]+"','"+tstr[2]+"','"+tstr[3]+"','"+tstr[4]+"','"+tstr[5]+"','"+tstr[6]+"','"+tstr[7]+"','"+tstr[8]+"','"+tstr[9]+"','"+tstr[10]+"','"+tstr[11]+"','"+tstr[12]+"','"+tstr[13]+"','"+tstr[14]+"','"+tstr[15]+"','"+tstr[16]+"','"+tstr[17]+"')";
+	    //AfxMessageBox(s.c_str());
+	    bstrSQL=s.c_str();
+	    pa->ExecuteSQL(bstrSQL);
 
 	}
 
 	icount++;
 }
 
-*/
 
 void calculate(ADOConn *pa)
 {
-	_RecordsetPtr m_pRecordset;  //Ö¤È¯´úÂë
-	_RecordsetPtr m_pRecordset2;   //ÈÕ½»Ò×Êı¾İ
+	_RecordsetPtr m_pRecordset;  //è¯åˆ¸ä»£ç 
+	_RecordsetPtr m_pRecordset2;   //æ—¥äº¤æ˜“æ•°æ®
 	_bstr_t bstrSQL;
 
-	if(pstr_code==NULL) //Ã»ÓĞÉèÖÃÆ·ÖÖ·¶Î§,¾ÍÄ¬ÈÏÉèÖÃÎªËùÓĞÆ·ÖÖ
+	if(pstr_code==NULL) //æ²¡æœ‰è®¾ç½®å“ç§èŒƒå›´,å°±é»˜è®¤è®¾ç½®ä¸ºæ‰€æœ‰å“ç§
 	{
 		bstrSQL="select code from code";
 		m_pRecordset=pa->GetRecordSet(bstrSQL);
 
-		pstr_code=new char*[m_pRecordset->RecordCount];        //·ÖÅä¶şÎ¬Êı×é´æ·Å´úÂë
-		pstr_code_size=m_pRecordset->RecordCount;              //Í¬Ê±¼Ç×¡¶şÎ¬Êı×é´óĞ¡
+		pstr_code=new char*[m_pRecordset->RecordCount];       
+		pstr_code_size=m_pRecordset->RecordCount;             
 
 		int i=0;
-		for(m_pRecordset->MoveFirst();!m_pRecordset->adoEOF;m_pRecordset->MoveNext(),i++)  //±éÀúËùÓĞµÄÖ¤È¯´úÂë
+		for(m_pRecordset->MoveFirst();!m_pRecordset->adoEOF;m_pRecordset->MoveNext(),i++)  //éå†æ‰€æœ‰çš„è¯åˆ¸ä»£ç 
 		{
 				pstr_code[i]=new char[6]; 
 				strcpy(pstr_code[i],(_bstr_t)m_pRecordset->GetCollect("code"));
@@ -111,16 +106,16 @@ void calculate(ADOConn *pa)
 	}
 
 
-	preport_var=preport_var_old=new report_var[10]; //·ÖÅäÊı×éÓÃÓÚreportÊä³ö
+	preport_var=preport_var_old=new report_var[10]; 
 	initial_report_var();
 
-	for(int i=0;i<pstr_code_size;i++)    //±éÀúÃ¿Ò»Ö»¹ÉÆ±
+	for(int i=0;i<pstr_code_size;i++)    //éå†æ¯ä¸€åªè‚¡ç¥¨
 	{
-		bstrSQL="select [Opnprc],[Hiprc],[Loprc],[Clsprc],[Adjprcnd],[Trdsta] from [";         //ÕâÀïÑ¡ÔñÒªÓÃµ½µÄ×Ö¶Î¡£ ÕâÀïÎÒÖ»¹Ø×¢¼Û¸ñ¡£
+		bstrSQL="select [Opnprc],[Hiprc],[Loprc],[Clsprc],[Adjprcnd],[Trdsta] from [";        
 		bstrSQL+=pstr_code[i];
-		bstrSQL+="]";      //±ğÍüÁËÖĞÀ¨ºÅ
+		bstrSQL+="]";    
 
-		if(pstr_start_time[0]!=' ' || pstr_end_time[0]!=' ')   //Ã»ÓĞÉèÖÃÊ±¼ä·¶Î§¾ÍÌø¹ı£¨0Óë¿Õ¸ñµÄansi±àÂë²»Í¬¡££©
+		if(pstr_start_time[0]!=' ' || pstr_end_time[0]!=' ')   
 		{
 			bstrSQL+=" WHERE ";
 			if(pstr_start_time[0]!=' ' && pstr_end_time[0]!=' ')
@@ -130,7 +125,7 @@ void calculate(ADOConn *pa)
 				bstrSQL+="' AND Trddt<='";
 				bstrSQL+=pstr_end_time;
 				bstrSQL+="'";
-				goto s; //Ìø¹ıºóÃæ
+				goto s; 
 			}
 
 			if(pstr_start_time[0]!=' ')
@@ -155,16 +150,16 @@ void calculate(ADOConn *pa)
 		
 		long num=m_pRecordset2->RecordCount;
 
-		if(num!=0)  //Ã»ÓĞÑ¡Ôñ¹ÉÆ±»¹·ÖÅä¸öÆ¨ÄÚ´æ°¡£¿
+		if(num!=0)  
 		{
-				pmydata_old=new data[num];    //Èç¹ûRecordCountÎª-1¾Í²»ĞĞ; pmydata_oldÒ»Ö±Ö¸ÏòÄÚ´æµØÖ·²»±ä
+				pmydata_old=new data[num];  
 				pmydata=pmydata_old;
-						//recordset²»ÊÊºÏ·ÖÎöÊı¾İ£¬ÏÈ×ªµ½ÄÚ´æ¿éÀï£¬È»ºó¾ÍÊÇ·ÖÎö¡£
+						
 				double Clsprc,percent;
 				for(m_pRecordset2->MoveFirst();!m_pRecordset2->adoEOF;m_pRecordset2->MoveNext(),pmydata++)
 				{
 					pmydata->Clsprc =atof((_bstr_t)m_pRecordset2->GetCollect("Adjprcnd")); 	
-					/*¼Û¸ñµ÷Õû*/
+					/*ä»·æ ¼è°ƒæ•´*/
 					Clsprc=atof((_bstr_t)m_pRecordset2->GetCollect("Clsprc"));
 					percent=pmydata->Clsprc/Clsprc;
 
@@ -176,13 +171,13 @@ void calculate(ADOConn *pa)
 
 		}
 
-		m_pRecordset2->Close();   //ÓÃÍêÊı¾İ¼¯ºóÁ¢¼´Ïú»Ù
+		m_pRecordset2->Close();  
 		m_pRecordset2=NULL;
 
 		pmydata=pmydata_old;
 
 		SetWindowText(hedit3," ");
-		/*Êı¾İ×¼±¸Íêºó£¬Ä£ÄâÊĞ³¡ÔËĞĞ,£¨¶à¸öÌõ¼ş£©*/
+		/*æ•°æ®å‡†å¤‡å®Œåï¼Œæ¨¡æ‹Ÿå¸‚åœºè¿è¡Œ*/
 		for(int l=0;l<10;l++)
 		{
 			  Turtle *tt=new Turtle;
@@ -190,71 +185,20 @@ void calculate(ADOConn *pa)
 		      delete tt;
 		}
 
-		if(pmydata_old!=NULL)     //ÏÈ¼ì²éºóÊÍ·Å¡£
-		delete [] pmydata_old;    //¼ÇµÃÇå³ş£¬²»È»»áÄÚ´æĞ¹Â¶
+		if(pmydata_old!=NULL)  
+		delete [] pmydata_old;   
 		pmydata=pmydata_old=NULL;
 	}
 
 	report();  //report in edit3
 
 
-	delete [] preport_var_old;        //ÓÉÓÚpreport_varÒÑ¾­Ö¸Ïòµ½×îºóÄÇ¸öÔªËØ£¬ËùÒÔ²»ÄÜÖ±½Ódelete [] preport_var;
+	delete [] preport_var_old;       
 	preport_var=preport_var_old=NULL;
-	pa->ExitConnect();       //ÓëÊı¾İ¿âÁ¬½Ó¶Ï¿ª
+	pa->ExitConnect();      
 
-	//pstr_codeµÄÄÚ´æ¿Õ¼ä²»ÓÃÊÍ·Å£¬Áô´ıÏÂ´ÎÓÃ
-}
-
-
-
-		/*
-		_bstr_t bstrSQL="select code from code";
-		m_pRecordset=pa->GetRecordSet(bstrSQL);
-		preport_var=new report_var[m_pRecordset->RecordCount];
-		for(m_pRecordset->MoveFirst();!m_pRecordset->adoEOF;m_pRecordset->MoveNext())  //±éÀúËùÓĞµÄÖ¤È¯´úÂë
-		{
-
-		bstrSQL="select [Adjprcnd] from [";         //ÕâÀïÑ¡ÔñÒªÓÃµ½µÄ×Ö¶Î¡£ ÕâÀïÎÒÖ»ÓÃÒ»¸ö¡°²»¿¼ÂÇÏÖ½ğºìÀûµÄÊÕÅÌ¼ÛµÄ¿É±È¼Û¸ñ¡±
-		bstrSQL+=(_bstr_t)m_pRecordset->GetCollect("code");
-		bstrSQL+="]";      //±ğÍüÁËÖĞÀ¨ºÅ
-		//AfxMessageBox(bstrSQL);
-		m_pRecordset2=pa->GetRecordSet(bstrSQL);   
-
-
-
-		long num=m_pRecordset2->RecordCount;
-		pmydata_old=new data[num];    //Èç¹ûRecordCountÎª-1¾Í²»ĞĞ
-		pmydata=pmydata_old;
-
-						//recordset²»ÊÊºÏ·ÖÎöÊı¾İ£¬ÏÈ×ªµ½ÄÚ´æ¿éÀï£¬È»ºó¾ÍÊÇ·ÖÎö¡£
-		for(m_pRecordset2->MoveFirst();!m_pRecordset2->adoEOF;m_pRecordset2->MoveNext(),pmydata++)
-		{
-					bstrSQL=(_bstr_t)m_pRecordset2->GetCollect("Adjprcnd");
-					pmydata->Clsprc = atof(bstrSQL); 
-
-		}
-
-		m_pRecordset2->Close();
-		m_pRecordset2=NULL;
-
-		pmydata=pmydata_old;
-
-		Moving_Average ma;
-		ma.run_market(num,(char *)(_bstr_t)m_pRecordset->GetCollect("code"));
-
-
-		delete [] pmydata_old;    //¼ÇµÃÇå³ş£¬²»È»»áÄÚ´æĞ¹Â¶
-		pmydata=pmydata_old=NULL;
-
-		}
 	
-		delete [] preport_var;
-		m_pRecordset->Close();
-		m_pRecordset=NULL;
-		pa->ExitConnect();
-	}
-	*/
-
+}
 
 
 void initial_report_var()
@@ -278,23 +222,23 @@ void report()
 	{
 		if((preport_var+l)->icount==0)
 		{  
-			strtemp.Format("¼ÆËã0Ö»¹ÉÆ±\n\nÖÜÆÚ%dÌì",(preport_var+l)->icount,(l+1)*5);
+			strtemp.Format("è®¡ç®—0åªè‚¡ç¥¨\n\nå‘¨æœŸ%då¤©",(preport_var+l)->icount,(l+1)*5);
 			append_text(hedit1,(LPTSTR)(LPCTSTR)strtemp);
 			continue;
 		}
 
 		int aver_profit_times=0,aver_loss_times=0;
-	    unsigned long long aver_total_assets=0,aver_profit=0,aver_loss=0;
+	        unsigned long long aver_total_assets=0,aver_profit=0,aver_loss=0;
 
-		aver_loss_times=(preport_var+l)->loss_times/(preport_var+l)->icount;      //ÓÉÓÚÕâÀïµÈ¼ÛÓÚaver_loss_times=aver_loss_times+(preport_var-i)->loss_times;ËùÒÔ±ØĞëÏÈ¸³³õÖµ
+		aver_loss_times=(preport_var+l)->loss_times/(preport_var+l)->icount;      
 		aver_profit_times=(preport_var+l)->profit_times/(preport_var+l)->icount;            
 		aver_total_assets=(preport_var+l)->total_assets/(preport_var+l)->icount; 
 		aver_profit=(preport_var+l)->profit/(preport_var+l)->icount; 
 		aver_loss=(preport_var+l)->loss/(preport_var+l)->icount; 
 
 
-		strtemp.Format("¼ÆËã%dÖ»¹ÉÆ±\n\nÖÜÆÚ%dÌì\n\nÆ½¾ù×Ü×Ê²úÓà¶î%I64u\n\nÆ½¾ùÓ¯Àû´ÎÊı%d\n\nÆ½¾ù¿÷Ëğ´ÎÊı%d\n\nÆ½¾ùÓ¯Àû×Ü¶î%I64u\n\nÆ½¾ù¿÷Ëğ×Ü¶î%I64u",(preport_var+l)->icount,(l+1)*5,aver_total_assets,aver_profit_times,aver_loss_times,aver_profit,aver_loss);
-	    append_text(hedit3,(LPTSTR)(LPCTSTR)strtemp);
+		strtemp.Format("è®¡ç®—%dåªè‚¡ç¥¨\n\nå‘¨æœŸ%då¤©\n\nå¹³å‡æ€»èµ„äº§ä½™é¢%I64u\n\nå¹³å‡ç›ˆåˆ©æ¬¡æ•°%d\n\nå¹³å‡äºæŸæ¬¡æ•°%d\n\nå¹³å‡ç›ˆåˆ©æ€»é¢%I64u\n\nå¹³å‡äºæŸæ€»é¢%I64u",(preport_var+l)->icount,(l+1)*5,aver_total_assets,aver_profit_times,aver_loss_times,aver_profit,aver_loss);
+	        append_text(hedit3,(LPTSTR)(LPCTSTR)strtemp);
 	}
 
 }
@@ -304,7 +248,7 @@ void report()
 void append_text(HWND h,char *pStr)
 {
 	int nLength =SendMessage(h, WM_GETTEXTLENGTH,0,0); 
-	SendMessage(h, EM_SETSEL, nLength, nLength);    //ËäÈ»postmessage¸ü¿ì£¬µ«postmessageÊÇÒì²½£¬Òª±£Ö¤²ÎÊıÖµµÄ²»±ä¡£
+	SendMessage(h, EM_SETSEL, nLength, nLength);    //è™½ç„¶postmessageæ›´å¿«ï¼Œä½†postmessageæ˜¯å¼‚æ­¥ï¼Œè¦ä¿è¯å‚æ•°å€¼çš„ä¸å˜ã€‚
     //SendMessage(hEdit, EM_SCROLLCARET, 0, 0);
     SendMessage(h, EM_REPLACESEL, TRUE, (LPARAM)pStr);
 }
