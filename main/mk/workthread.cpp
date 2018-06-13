@@ -30,7 +30,7 @@ unsigned int __stdcall WorkThrd(void * pParam)
 	//write_in_db(&a);
 	calculate(&a);
 	AfxMessageBox("工作完成");
-    return 0;
+	return 0;
 }
 
 void write_in_db(ADOConn *pa)
