@@ -17,66 +17,59 @@ ADOConn::~ADOConn()
 
 }
 
-// ³õÊ¼»¯¡ªÁ¬½ÓÊý¾Ý¿â
+// åˆå§‹åŒ–â€”è¿žæŽ¥æ•°æ®åº“
 void ADOConn::OnInitADOConn()
 {
-// ³õÊ¼»¯OLE/COM¿â»·¾³
+// åˆå§‹åŒ–OLE/COMåº“çŽ¯å¢ƒ
 ::CoInitialize(NULL);
 
 try
 {
-// ´´½¨Connection¶ÔÏó
+// åˆ›å»ºConnectionå¯¹è±¡
 m_pConnection.CreateInstance("ADODB.Connection");
-// ÉèÖÃÁ¬½Ó×Ö·û´®£¬±ØÐëÊÇBSTRÐÍ»òÕß_bstr_tÀàÐÍ
-_bstr_t strConnect = "Provider=SQLOLEDB; Server=2012-0427-1939\\MYDB; Database=stock; Integrated Security=SSPI;";           //ÐÐÁË
+// è®¾ç½®è¿žæŽ¥å­—ç¬¦ä¸²ï¼Œå¿…é¡»æ˜¯BSTRåž‹æˆ–è€…_bstr_tç±»åž‹
+_bstr_t strConnect = "Provider=SQLOLEDB; Server=2012-0427-1939\\MYDB; Database=stock; Integrated Security=SSPI;";           //è¡Œäº†
 m_pConnection->Open(strConnect,"","",adModeUnknown);
 }
-// ²¶×½Òì³£
+// æ•æ‰å¼‚å¸¸
 catch(_com_error e)
 {
-// ÏÔÊ¾´íÎóÐÅÏ¢
+// æ˜¾ç¤ºé”™è¯¯ä¿¡æ¯
 AfxMessageBox(e.Description());
 }
 }
 
-// Ö´ÐÐ²éÑ¯
-_RecordsetPtr& ADOConn::GetRecordSet(_bstr_t bstrSQL)         //·µ»ØÖµÊÇ°´Ö·´«µÝ
+// æ‰§è¡ŒæŸ¥è¯¢
+_RecordsetPtr& ADOConn::GetRecordSet(_bstr_t bstrSQL)         
 {
 try
 {
-// Á¬½ÓÊý¾Ý¿â£¬Èç¹ûConnection¶ÔÏóÎª¿Õ£¬ÔòÖØÐÂÁ¬½ÓÊý¾Ý¿â
+// è¿žæŽ¥æ•°æ®åº“ï¼Œå¦‚æžœConnectionå¯¹è±¡ä¸ºç©ºï¼Œåˆ™é‡æ–°è¿žæŽ¥æ•°æ®åº“
 if(m_pConnection==NULL)
    OnInitADOConn();
-// ´´½¨¼ÇÂ¼¼¯¶ÔÏó
+// åˆ›å»ºè®°å½•é›†å¯¹è±¡
 m_pRecordset.CreateInstance(__uuidof(Recordset));
-// È¡µÃ±íÖÐµÄ¼ÇÂ¼
+// å–å¾—è¡¨ä¸­çš„è®°å½•
 m_pRecordset->Open(bstrSQL,m_pConnection.GetInterfacePtr(),adOpenKeyset,adLockOptimistic,adCmdText);
 }
-// ²¶×½Òì³£
+// æ•æ‰å¼‚å¸¸
 catch(_com_error e)
 {
-// ÏÔÊ¾´íÎóÐÅÏ¢
+// æ˜¾ç¤ºé”™è¯¯ä¿¡æ¯
 AfxMessageBox(e.Description());
 }
-// ·µ»Ø¼ÇÂ¼¼¯
+// è¿”å›žè®°å½•é›†
 return m_pRecordset;
 }
 
-// Ö´ÐÐSQLÓï¾ä£¬Insert Update _variant_t
+// æ‰§è¡ŒSQLè¯­å¥ï¼ŒInsert Update _variant_t
 BOOL ADOConn::ExecuteSQL(_bstr_t bstrSQL)
 {
-// _variant_t RecordsAffected;
 try
 {
-// ÊÇ·ñÒÑ¾­Á¬½ÓÊý¾Ý¿â
+// æ˜¯å¦å·²ç»è¿žæŽ¥æ•°æ®åº“
 if(m_pConnection == NULL)
    OnInitADOConn();
-// Connection¶ÔÏóµÄExecute·½·¨:(_bstr_t CommandText,
-// VARIANT * RecordsAffected, long Options )
-// ÆäÖÐCommandTextÊÇÃüÁî×Ö´®£¬Í¨³£ÊÇSQLÃüÁî¡£
-// ²ÎÊýRecordsAffectedÊÇ²Ù×÷Íê³ÉºóËùÓ°ÏìµÄÐÐÊý,
-// ²ÎÊýOptions±íÊ¾CommandTextµÄÀàÐÍ£ºadCmdText-ÎÄ±¾ÃüÁî£»adCmdTable-±íÃû
-// adCmdProc-´æ´¢¹ý³Ì£»adCmdUnknown-Î´Öª
 m_pConnection->Execute(bstrSQL,NULL,adCmdText);
 return true;
 }
@@ -89,12 +82,8 @@ return false;
 
 void ADOConn::ExitConnect()
 {
-// ¹Ø±Õ¼ÇÂ¼¼¯ºÍÁ¬½Ó
-//if (m_pRecordset != NULL)     //ÎÒÒÑ¾­×ÔÐÐµ÷ÓÃm_pRecordset->Close()ÁË£¬²»ÖªµÀÕâÑù×ö»á²»»áÄÚ´æÐ¹Â¶ÄØ£¿
-//m_pRecordset->Close();
-
 m_pConnection->Close();
-// ÊÍ·Å»·¾³
+// é‡Šæ”¾çŽ¯å¢ƒ
 ::CoUninitialize();
 }
 
