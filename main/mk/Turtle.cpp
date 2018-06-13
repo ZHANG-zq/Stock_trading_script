@@ -88,14 +88,13 @@ TR *Turtle::calculate_TR(int num,TR *t)
 
 double Turtle::get_N(TR *t)
 {
-    double aver=0;
+	double aver=0;
 	do
 	{
 		aver+=t->value;
 	}while((t=t->front)!=NULL);
 	aver/=15;
 	return aver;
-
 }
 
 
@@ -103,19 +102,16 @@ void Turtle::run_market(char *pcode,int num/*天数*/,int period/*周期*/,repor
 {
 	if(pmydata==NULL)
 		return;
-
 	TR *tr=new TR;
 	tr->front=NULL;
 	tr->value=fabs(pmydata->Loprc - pmydata->Hiprc);  
 	pmydata+=2;
-
 	double N;
 	for(int t=3;t<=num;t++)
 	{
 		tr=calculate_TR(t, tr);
 		if(t>15)      //第16天才开始交易，因为此时才集满15个tr来求N
 		{
-
 			N=get_N(tr);
 			refresh_holding_data();//刷新持有股票的数据，主要看有没有触动止损/盈
 			if(can_buy())     //没有持有股票
@@ -147,17 +143,14 @@ void Turtle::run_market(char *pcode,int num/*天数*/,int period/*周期*/,repor
 }
 
 
-
 bool Turtle::is_highest(int n/*第几天*/,int period/*周期*/,data *ppmydata)
 {
-
 	if(n>=period)
 	{
 		int i=1;
 		double tHiprcp=pmydata->Hiprc/1.02;   //保证当天的最高价比前n-1天的最高价高2%(这也算是过滤器一部分）
 		while(i<period && tHiprcp > (ppmydata-i)->Hiprc  ) 
 			i++;
-
 		if(i==period-1)       
 		{
 			i=1;               //当价格超过前n-1天的最高价的1%时，发出买入信号
@@ -220,7 +213,6 @@ bool Turtle::stop_winning()
 }
 
 
-
 void Turtle::refresh_holding_data()  
 {
 	if(ac.stock.quantity!=0) 
@@ -256,7 +248,6 @@ bool Turtle::is_goldcross(int n,int small_period,int big_period)
 		}
 	}
 	return false;
-
 }
 
 
@@ -285,5 +276,4 @@ bool Turtle::is_deathcross(int n,int small_period,int big_period)
 		}
 	}
 	return false;
-
 }
