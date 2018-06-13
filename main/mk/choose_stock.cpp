@@ -1,4 +1,4 @@
-// choose_stock.cpp : ÊµÏÖÎÄ¼ş
+// choose_stock.cpp : å®ç°æ–‡ä»¶
 //
 
 #include "stdafx.h"
@@ -14,16 +14,13 @@ extern int pstr_code_size;
 extern char pstr_start_time[11],pstr_end_time[11];
 
 
-// choose_stock ¶Ô»°¿ò
+// choose_stock å¯¹è¯æ¡†
 
 IMPLEMENT_DYNAMIC(choose_stock, CDialog)
 
 choose_stock::choose_stock(CWnd* pParent /*=NULL*/)
 	: CDialog(choose_stock::IDD, pParent)
 {
-
-
-
 }
 
 choose_stock::~choose_stock()
@@ -50,41 +47,41 @@ BEGIN_MESSAGE_MAP(choose_stock, CDialog)
 END_MESSAGE_MAP()
 
 
-// choose_stock ÏûÏ¢´¦Àí³ÌĞò
+// choose_stock æ¶ˆæ¯å¤„ç†ç¨‹åº
 
 
 BOOL choose_stock::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	// TODO:  ÔÚ´ËÌí¼Ó¶îÍâµÄ³õÊ¼»¯  -----²Ù×÷½çÃæµÄÒª·ÅÔÚÕâÀï
-	/*ÏÈÎª¿Ø¼ş±äÁ¿¸³Öµ*/
+	// TODO:  åœ¨æ­¤æ·»åŠ é¢å¤–çš„åˆå§‹åŒ–  -----æ“ä½œç•Œé¢çš„è¦æ”¾åœ¨è¿™é‡Œ
+	/*å…ˆä¸ºæ§ä»¶å˜é‡èµ‹å€¼*/
 	CTab=(CTabCtrl*)GetDlgItem(IDC_TAB1);
 	CList1=(CListBox*)GetDlgItem(IDC_LIST1);
 	CList2=(CListBox*)GetDlgItem(IDC_LIST2);
 
 	CEdit2=(CEdit*)GetDlgItem(IDC_EDIT2);
 	CEdit3=(CEdit*)GetDlgItem(IDC_EDIT3);
-	/*Ìí¼Ó±êÇ©Ò³*/
-	CTab->InsertItem(0,"Æ·ÖÖ");
-	CTab->InsertItem(1,"Ê±¼ä");
+	/*æ·»åŠ æ ‡ç­¾é¡µ*/
+	CTab->InsertItem(0,"å“ç§");
+	CTab->InsertItem(1,"æ—¶é—´");
 
-	/*´æ·Å¿Ø¼şÖ¸Õëµ½ÏàÓ¦µÄÊı×é£¬±ãÓÚ±êÇ©µÄÏÔÊ¾*/
-		//µÚÒ»±êÇ©Ò³
-		pTab1_group[0]=CList1;
-		pTab1_group[1]=CList2;
-		pTab1_group[2]=GetDlgItem(IDC_BUTTON1);
-		pTab1_group[3]=GetDlgItem(IDC_BUTTON2);
-		pTab1_group[4]=GetDlgItem(IDC_BUTTON3);
-		pTab1_group[5]=GetDlgItem(IDC_BUTTON4);
-		//µÚ¶ş±êÇ©Ò³
-		pTab2_group[0]=CEdit2;
-		pTab2_group[1]=CEdit3;
-		pTab2_group[2]=GetDlgItem(IDC_STATIC);
-		pTab2_group[3]=GetDlgItem(IDC_STATIC1);
-		Tab_hide_show(*pTab2_group,4,SW_HIDE);  //ÏÈÒş²Ø
+	/*å­˜æ”¾æ§ä»¶æŒ‡é’ˆåˆ°ç›¸åº”çš„æ•°ç»„ï¼Œä¾¿äºæ ‡ç­¾çš„æ˜¾ç¤º*/
+	//ç¬¬ä¸€æ ‡ç­¾é¡µ
+	pTab1_group[0]=CList1;
+	pTab1_group[1]=CList2;
+	pTab1_group[2]=GetDlgItem(IDC_BUTTON1);
+	pTab1_group[3]=GetDlgItem(IDC_BUTTON2);
+	pTab1_group[4]=GetDlgItem(IDC_BUTTON3);
+	pTab1_group[5]=GetDlgItem(IDC_BUTTON4);
+	//ç¬¬äºŒæ ‡ç­¾é¡µ
+	pTab2_group[0]=CEdit2;
+	pTab2_group[1]=CEdit3;
+	pTab2_group[2]=GetDlgItem(IDC_STATIC);
+	pTab2_group[3]=GetDlgItem(IDC_STATIC1);
+	Tab_hide_show(*pTab2_group,4,SW_HIDE);  //å…ˆéšè—
 
-	/*Ìí¼Ó´úÂëµ½listbox*/
+	/*æ·»åŠ ä»£ç åˆ°listbox*/
 	ADOConn a;
 	_bstr_t bstrSQL;
 	a.OnInitADOConn();
@@ -92,151 +89,122 @@ BOOL choose_stock::OnInitDialog()
 	bstrSQL="select code from code";
 	m_pRecordset=a.GetRecordSet(bstrSQL);
 
-
-		for(m_pRecordset->MoveFirst();!m_pRecordset->adoEOF;m_pRecordset->MoveNext())  //±éÀúËùÓĞµÄÖ¤È¯´úÂë
-		{
-			CList1->AddString((LPCTSTR)(_bstr_t)m_pRecordset->GetCollect("code"));
-		}
+	for(m_pRecordset->MoveFirst();!m_pRecordset->adoEOF;m_pRecordset->MoveNext())  //éå†æ‰€æœ‰çš„è¯åˆ¸ä»£ç 
+	{
+		CList1->AddString((LPCTSTR)(_bstr_t)m_pRecordset->GetCollect("code"));
+	}
 
 	a.ExitConnect();
 
-
-
 	return TRUE;  // return TRUE unless you set the focus to a control
-	// Òì³£: OCX ÊôĞÔÒ³Ó¦·µ»Ø FALSE
+	// å¼‚å¸¸: OCX å±æ€§é¡µåº”è¿”å› FALSE
 }
 
 
 void choose_stock::OnBnClickedButton1()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	int nCount;
 
 	CArray<int,int> aryListBoxSel;
 	nCount=CList1->GetSelCount();
 
-    aryListBoxSel.SetSize(nCount);
-    CList1->GetSelItems(nCount, aryListBoxSel.GetData());
+	aryListBoxSel.SetSize(nCount);
+	CList1->GetSelItems(nCount, aryListBoxSel.GetData());
 
-    CString strTmp;
+	CString strTmp;
 
 	for(int i=0; i<aryListBoxSel.GetCount();i++)
-   {
-    CList1->GetText(aryListBoxSel[i], strTmp);
-
-	CList2->AddString(strTmp);
+	{
+		CList1->GetText(aryListBoxSel[i], strTmp);
+		CList2->AddString(strTmp);
 	} 
 
-	for(int i=aryListBoxSel.GetCount()-1; i>=0;i--)     //´Óµ×²¿¿ªÊ¼É¾£¬²»»áÓ°ÏìindexÖµ
-   {
-	CList1->DeleteString(aryListBoxSel[i]);
-
+	for(int i=aryListBoxSel.GetCount()-1; i>=0;i--)     //ä»åº•éƒ¨å¼€å§‹åˆ ï¼Œä¸ä¼šå½±å“indexå€¼
+	{
+		CList1->DeleteString(aryListBoxSel[i]);
 	} 
-
- 
 
 }
 
 
 void choose_stock::OnBnClickedButton2()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 
 	int nCount;
 
 	CArray<int,int> aryListBoxSel;
 	nCount=CList2->GetSelCount();
 
-    aryListBoxSel.SetSize(nCount);
-    CList2->GetSelItems(nCount, aryListBoxSel.GetData());
+	aryListBoxSel.SetSize(nCount);
+	CList2->GetSelItems(nCount, aryListBoxSel.GetData());
 
-    CString strTmp;
-
+	CString strTmp;
 	for(int i=0; i<aryListBoxSel.GetCount();i++)
-   {
-    CList2->GetText(aryListBoxSel[i], strTmp);
-
-	CList1->AddString(strTmp);
+	{
+		CList2->GetText(aryListBoxSel[i], strTmp);
+		CList1->AddString(strTmp);
 	} 
 
-	for(int i=aryListBoxSel.GetCount()-1; i>=0;i--)     //´Óµ×²¿¿ªÊ¼É¾£¬²»»áÓ°ÏìindexÖµ
-   {
-	CList2->DeleteString(aryListBoxSel[i]);
-
+	for(int i=aryListBoxSel.GetCount()-1; i>=0;i--)    
+	{
+		CList2->DeleteString(aryListBoxSel[i]);
 	} 
-
 }
 
 
 //void choose_stock::OnLbnSelchangeList1()
 //{
-//	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+//	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 //}
 
 
 void choose_stock::OnBnClickedButton3()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-		int nCount;
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+	int nCount;
 
 	nCount=CList1->GetCount();
-
-    CString strTmp;
-
+	CString strTmp;
 	for(int i=0; i<nCount;i++)
-   {
-    CList1->GetText(i, strTmp);
-
-	CList2->AddString(strTmp);
+	{
+		CList1->GetText(i, strTmp);
+		CList2->AddString(strTmp);
 	} 
-
-	for(int i=nCount-1; i>=0;i--)     //´Óµ×²¿¿ªÊ¼É¾£¬²»»áÓ°ÏìindexÖµ
-   {
-	CList1->DeleteString(i);
-
+	for(int i=nCount-1; i>=0;i--)   
+	{
+		CList1->DeleteString(i);
 	} 
-
 }
 
 
 void choose_stock::OnBnClickedButton4()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-			int nCount;
-
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+	int nCount;
 	nCount=CList2->GetCount();
-
-    CString strTmp;
-
+	CString strTmp;
 	for(int i=0; i<nCount;i++)
-   {
-    CList2->GetText(i, strTmp);
-
-	CList1->AddString(strTmp);
+	{
+		CList2->GetText(i, strTmp);
+		CList1->AddString(strTmp);
 	} 
-
-	for(int i=nCount-1; i>=0;i--)     //´Óµ×²¿¿ªÊ¼É¾£¬²»»áÓ°ÏìindexÖµ
-   {
-	CList2->DeleteString(i);
-
+	for(int i=nCount-1; i>=0;i--)   
+	{
+		CList2->DeleteString(i);
 	} 
-
 }
 
 
 void choose_stock::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	int sel = CTab->GetCurSel();
-
 	int n;
-
 	switch(sel)
-			{
-
-			case 0:
-            /*ËäÈ»´úÂë²»¹»ÃÀ¹Û¼ò½à£¬µ«³ÌĞòµÄºËĞÄ²»ÔÚÓÚ´Ë*/
+	{
+		case 0:
 			n=sizeof(pTab1_group)/sizeof(CWnd*);
 			Tab_hide_show(*pTab1_group,n,SW_SHOW);
 
@@ -245,75 +213,67 @@ void choose_stock::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 
 			break;
 
-			case 1:
-            n=sizeof(pTab1_group)/sizeof(CWnd*);
+		case 1:
+        		n=sizeof(pTab1_group)/sizeof(CWnd*);
 			Tab_hide_show(*pTab1_group,n,SW_HIDE);
 
 			n=sizeof(pTab2_group)/sizeof(CWnd*);
 			Tab_hide_show(*pTab2_group,n,SW_SHOW);
 			break;
 
-			}
-
+	}
 	*pResult = 0;
-
 }
 
 
 void choose_stock::Tab_hide_show(CWnd *pWnd,int nSize,int nState)
 {
-
 	for(int i=0;i<nSize;i++,pWnd++)
 	{
 		pWnd->ShowWindow(nState);
-
 	}
 }
 
 void choose_stock::OnBnClickedOk()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 
-	/*¼ì²éµÚÒ»±êÇ©Ò³¡ª¡ªÆ·ÖÖ*/
+	/*æ£€æŸ¥ç¬¬ä¸€æ ‡ç­¾é¡µâ€”â€”å“ç§*/
 	int nCount=CList2->GetCount();
 	if(nCount!=0)
 	{
-		if(pstr_code!=NULL)    //ÏÈÉ¾³ıÉÏ´Î·ÖÅäµÄÄÚ´æ
+		if(pstr_code!=NULL)    //å…ˆåˆ é™¤ä¸Šæ¬¡åˆ†é…çš„å†…å­˜
 		{
 			for(int i=0;i<pstr_code_size;i++)
-                   delete[] pstr_code[i];         
+                	delete[] pstr_code[i];         
 			delete[] pstr_code;
-
 		}
-		pstr_code=new char*[nCount];  //·ÖÅä¶şÎ¬Êı×éÓĞĞ©Âé·³,deleteÊ±Ò²Òª×¢Òâ£¬±ğÄÚ´æleak
-		pstr_code_size=nCount;     //Í¬Ê±¼Ç×¡´óĞ¡
+		pstr_code=new char*[nCount];  
+		pstr_code_size=nCount;     
 
 		for(int i=0;i<nCount;i++)
-		 {
-			 pstr_code[i]=new char[6]; 
+		{
+			pstr_code[i]=new char[6]; 
 
-		 }
-			CString strtemp;  //´úÂëĞ´µÄ²»Æ¯ÁÁ£¬ÄÜÓÃ¾ÍºÃÁË
+		}
+		CString strtemp; 
 		for(int i=0; i<nCount;i++)
-	   {
+	   	{
 		   CList2->GetText(i,strtemp);
-		   strcpy(pstr_code[i],strtemp.GetBuffer()); // pstr_code[i]=strtemp.GetBuffer();ÕâÑùĞ´ÊÇ´íµÄ£¬»á½«pstr_code[i]Ö¸ÏòstrtempµÄÄÚ´æµØÖ·£¬¶østrtempÊÇ¾Ö²¿±äÁ¿
+		   strcpy(pstr_code[i],strtemp.GetBuffer()); 
 		   //MessageBox(pstr_code[i]);
 		} 
 	 }
 
-	/*¼ì²éµÚ¶ş±êÇ©Ò³¡ª¡ªÊ±¼ä*/
+	/*æ£€æŸ¥ç¬¬äºŒæ ‡ç­¾é¡µâ€”â€”æ—¶é—´*/
 	if((CEdit2->GetWindowTextLength())!=0)
 	{
 		CEdit2->GetWindowTextA(pstr_start_time,11);
-
 	}
 	if((CEdit3->GetWindowTextLength())!=0)
 	{
 		CEdit3->GetWindowTextA(pstr_end_time,11);
 	}
-
-
 	CDialog::OnOK(); 
 
 }
